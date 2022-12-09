@@ -1,6 +1,9 @@
+import { toast } from "react-toastify";
 import axios from "../../apis/activities"
-import { IActivity } from "../../models/activity"
 import { IActivityCreate } from "../../models/createActivity";
+import { IActivityEdit } from "../../models/editActivity";
+import { toggleCreateModal, toggleEditModal } from "../UI/uiSlice";
+import { getSingleActivity } from "./activitesSlice";
 import { getAllActivities } from "./allActivitiesSlice";
 
 export const getSingleActivityThunk = async (activityId:string, thunkAPI:any) => {
@@ -17,11 +20,13 @@ export const getSingleActivityThunk = async (activityId:string, thunkAPI:any) =>
     }
 }
 
-export const updateActivityThunk = async(activityData:IActivity, thunkAPI:any) => {
+export const updateActivityThunk = async(editData: IActivityEdit, thunkAPI:any) => {
     try{
-        const editData = {...activityData}
-        const response = await axios['put'](`activities/edit/${editData.id}`, editData);
-        thunkAPI.dispatch(getAllActivities());
+        const body:any = editData.data
+        body.date = new Date(body.date);
+        const response = await axios['put'](`activities/${editData.ActivityId}`, body);
+        thunkAPI.dispatch(getSingleActivity(editData.ActivityId));
+        thunkAPI.dispatch(toggleEditModal());
         return response.data;
     }catch(err){
         const error = err as any; 
@@ -29,22 +34,18 @@ export const updateActivityThunk = async(activityData:IActivity, thunkAPI:any) =
             throw err;
         }
         let sum = error.response.data;
+        thunkAPI.dispatch(toggleCreateModal());
         return thunkAPI.rejectWithValue(`Something Went Wrong: ${sum.msg}`);
     }
 }
 
-export const createActivityThunk = async(activityData: IActivity, thunkAPI:any) => {
+export const createActivityThunk = async(activityData: IActivityCreate, thunkAPI:any) => {
     try{
-        let createData: IActivityCreate = {
-            title: activityData.title,
-            date: activityData.date,
-            description: activityData.description,
-            category: activityData.category,
-            city: activityData.city,
-            venue: activityData.venue,
-        }
-        const response = await axios['post']('activities/new', createData);
+        const postData:any = {...activityData};
+        postData.date = new Date(postData.date).toISOString();
+        const response = await axios['post']('activities', postData);
         thunkAPI.dispatch(getAllActivities());
+        thunkAPI.dispatch(toggleCreateModal());
         return response.data;
     }catch(err){
         const error = err as any; 
@@ -52,6 +53,7 @@ export const createActivityThunk = async(activityData: IActivity, thunkAPI:any) 
             throw err;
         }
         let sum = error.response.data;
+        thunkAPI.dispatch(toggleCreateModal());
         return thunkAPI.rejectWithValue(`Something Went Wrong: ${sum.msg}`);
     }
 }

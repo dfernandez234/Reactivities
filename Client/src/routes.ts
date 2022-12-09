@@ -32,21 +32,21 @@ export const routes: Array<Route> = [
         component: NewActivity
     },
     {
-        key: 'errors',
+        key: 'errors-route',
         title: 'Errors',
         path: '/errors',
         enabled: true,
         component: TestErrors
     },
     {
-        key:'notFoundError',
+        key:'notFoundError-route',
         title: 'Not Found Error',
         path:'/not-found',
         enabled:true,
         component: NotFound
     },
     {
-        key:'serverError',
+        key:'serverError-route',
         title: 'Server Error',
         path:'/server-error',
         enabled:true,

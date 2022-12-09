@@ -1,6 +1,13 @@
 import {Button, Header, Item, Segment, Image, Label} from 'semantic-ui-react'
 import React from 'react'
-import { useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { Link } from 'react-router-dom';
+import { toggleEditing } from '../../features/Activities/activitesSlice';
+import { toggleEditModal } from '../../features/UI/uiSlice';
+
+interface props{
+    id:string|undefined
+}
 
 const activityImageStyle = {
     filter: 'brightness(30%)'
@@ -15,9 +22,15 @@ const activityImageTextStyle = {
     color: 'white'
 };
 
-const ActivityDetailsHeader = () => {
+const ActivityDetailsHeader = (props:props) => {
     const detailedActivity = useAppSelector((state) => state.Activities.EditingActivity);
-    
+    const dispatch = useAppDispatch();
+
+    const toggleHandler = () => {
+        dispatch(toggleEditing()); 
+        dispatch(toggleEditModal());
+    }
+
     return (
         <Segment.Group>
             <Segment basic attached='top' style={{padding: '0'}}>
@@ -41,9 +54,9 @@ const ActivityDetailsHeader = () => {
                 </Segment>
             </Segment>
             <Segment clearing attached='bottom'>
-                <Button color='teal'>John Activity</Button>
-                <Button>Cancel Attendance</Button>
-                <Button color='orange' floated='right'>
+                <Button color='teal' floated='left'>John Activity</Button>
+                <Button floated='left'>Cancel Attendance</Button>
+                <Button color='orange' floated='right' type='button' onClick={toggleHandler}>
                     Manage Event
                 </Button>
             </Segment>

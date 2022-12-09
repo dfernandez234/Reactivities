@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import { IActivity } from "../../models/activity";
 import { createActivityThunk, deleteActivityThunk, getSingleActivityThunk, updateActivityThunk } from "./activitiesThunk";
 
@@ -42,10 +43,12 @@ const ActivitiesSlice = createSlice({
         },
 
         toggleEditing: (state) => {
-            if(state.isCreating){
+            if(state.isCreating)
                 state.isCreating = false;
-            }
-            state.isEditing = !state.isEditing;
+            if(state.isEditing)
+                return;
+            if(!state.isEditing)
+                state.isEditing = true;
         },
 
         toggleCreating: (state) => {
@@ -76,7 +79,7 @@ const ActivitiesSlice = createSlice({
 
         builder.addCase(getSingleActivity.fulfilled, (state, action) => {
             state.EditingActivity = action.payload.data;
-            state.EditingActivity.date = state.EditingActivity.date.slice(0, -4)+'Z';
+            //state.EditingActivity.date = state.EditingActivity.date.slice(0, -4)+'Z';
             state.isLoading = false;
         })
 
@@ -88,11 +91,12 @@ const ActivitiesSlice = createSlice({
         builder.addCase(createActivity.rejected, (state, action) => {
             state.isLoading = false;
             const err:string = action.payload as string;
-            console.log(`${err}`);
+            toast.error(`${err}`);
         })
 
         builder.addCase(createActivity.fulfilled, (state, action) => {
             state.isLoading = false;
+            toast.success("Activity Created Succesfully!");
         })
 
         //update
@@ -103,12 +107,13 @@ const ActivitiesSlice = createSlice({
         builder.addCase(updateActivity.rejected, (state, action) => {
             state.isLoading = false;
             const err:string = action.payload as string;
-            console.log(`${err}`);
+            toast.error(`${err}`);
         })
 
         builder.addCase(updateActivity.fulfilled, (state, action) => {
             state.isLoading = false;
             state.EditingActivity = action.payload.data;
+            toast.success("Activity Updated!");
         })
 
         //delete

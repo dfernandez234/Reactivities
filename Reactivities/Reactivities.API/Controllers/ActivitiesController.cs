@@ -1,6 +1,8 @@
 ﻿using Application.Core;
 using FluentResults;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Reactivities.Application.Activities.Commands.Create;
 using Reactivities.Application.Activities.Commands.Delete;
@@ -8,6 +10,7 @@ using Reactivities.Application.Activities.Commands.Edit;
 using Reactivities.Application.Activities.Queries.List;
 using Reactivities.Application.Activities.Queries.SingleActivity;
 using Reactivities.Contracts.Activities;
+using Reactivities.Contracts.Authentication;
 
 namespace Reactivities.API.Controllers
 {
@@ -24,7 +27,7 @@ namespace Reactivities.API.Controllers
             return HandleResult(authResult);
         }
 
-
+        [Authorize]
         [HttpGet]
         [Route("{id}")]
         public async Task<ActionResult<ServiceResponse<GetActivityResponse>>> GetSingleActivity(Guid Id)

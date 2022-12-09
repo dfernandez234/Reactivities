@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import ActivityList from '../components/ActivityList/ActivityList'
 import { useAppDispatch } from '../app/hooks'
 import { getAllActivities } from '../features/Activities/allActivitiesSlice';
@@ -15,16 +15,18 @@ const Home = () => {
 
 
   return (
-    <Container style={{marginTop: '7em'}}>
-      <Grid>
-        <Grid.Column width='10'>
-          <ActivityList/>
-        </Grid.Column>
-        <Grid.Column width='6'>
-          <ActivityFilters/>
-        </Grid.Column>
-      </Grid>
-    </Container>
+    <Fragment>
+      <Container style={{marginTop: '7em'}}>
+        <Grid>
+          <Grid.Column width='10'>
+            <ActivityList/>
+          </Grid.Column>
+          <Grid.Column width='6'>
+            <ActivityFilters/>
+          </Grid.Column>
+        </Grid>
+      </Container>
+    </Fragment>
   )
 }
 

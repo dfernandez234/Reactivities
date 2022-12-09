@@ -7,7 +7,11 @@ import ActivityDetailedInfo from './ActivityDetailedInfo';
 import ActivityDetailedSidebar from './ActivityDetailedSidebar';
 import ActivityDetailsHeader from './ActivityDetailsHeader';
 
-const ActivityDetails = () => {
+interface props{
+    id:string | undefined
+}
+
+const ActivityDetails = (props:props) => {
     const SingleActivity = useAppSelector((state) => state.Activities);
 
     if(SingleActivity.isLoading) return <LoadingScreen/>
@@ -15,7 +19,7 @@ const ActivityDetails = () => {
     return (
         <Grid>
             <Grid.Column width={10}>
-                <ActivityDetailsHeader/>
+                <ActivityDetailsHeader id={props.id}/>
                 <ActivityDetailedInfo/>
                 <ActivityDetailedChat/>
             </Grid.Column>

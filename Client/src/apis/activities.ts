@@ -29,7 +29,7 @@ const AxiosInterceptor = ({ children }:any) => {
         const {data, status, config}:any = error.response!; 
         if(status === 400){
           if(typeof data === 'string'){
-            toast(data);
+            toast.error(data);
           }
 
           if(config.method === 'get' && data.errors.hasOwnProperty('Id')){

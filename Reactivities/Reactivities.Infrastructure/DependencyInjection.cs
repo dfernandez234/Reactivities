@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Reactivities.Infrastructure.Persistence.Context;
+using Reactivities.Application.Common.Interfaces.Authentication;
+using Reactivities.Application.Common.Interfaces.Services;
+using Reactivities.Infrastructure.Authentication;
+using Reactivities.Infrastructure.Services;
 
 namespace Reactivities.Infrastructure
 {
@@ -11,7 +14,9 @@ namespace Reactivities.Infrastructure
             this IServiceCollection services,
             Microsoft.Extensions.Configuration.ConfigurationManager configuration)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             return services;
         }
     }

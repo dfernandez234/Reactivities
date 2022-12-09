@@ -1,44 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface UIState{
-    editFormOpen: boolean
-    singleActivityCardOpen: boolean
+    createModalOpen: boolean
+    editModalOpen: boolean
 }
 
 const initialState: UIState = {
-    editFormOpen: false,
-    singleActivityCardOpen: false,
+    createModalOpen: false,
+    editModalOpen: false
 }
 
 export const UISlice = createSlice({
     name: 'ui_slice',
     initialState,
     reducers: {
-        openEditForm:(state) => {
-            if(!state.editFormOpen){
-                state.editFormOpen = true;
-            }
-        },
+        toggleCreateModal(state){
+            if(state.editModalOpen)
+                state.editModalOpen = !state.editModalOpen
 
-        closeEditForm:(state) => {
-            if(state.editFormOpen){
-                state.editFormOpen = false;
-            }
+            state.createModalOpen = !state.createModalOpen;
         },
-
-        openSingleActivityCard: (state) => {
-            if(!state.singleActivityCardOpen){
-                state.singleActivityCardOpen = true;
-            }
-        },
-
-        closeSingleActivityCard: (state) => {
-            if(state.singleActivityCardOpen){
-                state.singleActivityCardOpen = false;
-            }
+        toggleEditModal(state){
+            if(state.createModalOpen)
+                state.createModalOpen = !state.createModalOpen
+                
+            state.editModalOpen = !state.editModalOpen;
         },
     }
 })
 
-export const {openEditForm, closeEditForm, openSingleActivityCard, closeSingleActivityCard} = UISlice.actions;
+export const {toggleCreateModal, toggleEditModal} = UISlice.actions;
 export default UISlice.reducer; 
