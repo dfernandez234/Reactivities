@@ -3,13 +3,15 @@ import ActivityReducer from '../features/Activities/activitesSlice'
 import UIReducer from '../features/UI/uiSlice'
 import AllActivitiesReducer from '../features/Activities/allActivitiesSlice'
 import ServerErrorReducer from '../features/Errors/ServerErrorSlice'
+import AuthenticationReducer from '../features/Users/AuthenticationSlice'
 
 export const store = configureStore({
     reducer: {
         AllActivities: AllActivitiesReducer,
         Activities:ActivityReducer,
         UI:UIReducer,
-        ServerError: ServerErrorReducer
+        ServerError: ServerErrorReducer,
+        Authentication: AuthenticationReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false

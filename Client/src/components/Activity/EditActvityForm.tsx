@@ -13,7 +13,7 @@ import MySelectInput from '../Common/Form/SelectInput'
 import MyDateInput from '../Common/Form/DateInput'
 import { categoryOptions } from '../Common/Options/categoryOptions'
 import { format } from 'date-fns'
-import { toggleEditModal } from '../../features/UI/uiSlice'
+import { closeModalLarge } from '../../features/UI/uiSlice'
 
 const EditActivityForm = () => {
     const [initDate, setDate] = useState<string>('');
@@ -78,7 +78,7 @@ const EditActivityForm = () => {
                         <MyTextInput name='city' placeholder='City'/>
                         <MyTextInput name='venue' placeholder='Venue'/>
                         <Button loading={activity.isLoading} floated='right' positive type='submit' content='Submit'/>
-                        <Button floated='right' type='button' content='Cancel' onClick={() => {dispatch(toggleEditModal())}}/>
+                        <Button floated='right' type='button' content='Cancel' onClick={() => {dispatch(closeModalLarge())}}/>
                     </Form>
                 )}
             </Formik>

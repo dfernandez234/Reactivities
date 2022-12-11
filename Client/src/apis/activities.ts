@@ -1,8 +1,8 @@
 import axios, { AxiosError } from "axios";
-import { resolve } from "path";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
+import { getUserFromLocalStorage } from "../utils/getUserFromLocalStorage";
 
 const sleep = (milliseconds:number) => {
   return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -16,16 +16,31 @@ const activities_api = axios.create({
     },
 });
 
+activities_api.interceptors.request.use(
+  function(config:any) {
+    const user = getUserFromLocalStorage(); 
+    if (user) {
+      config.headers["Authorization"] = 'Bearer ' + user.token;
+    }
+    return config;
+  },
+  function(error) {
+    return Promise.reject(error);
+  }
+)
+
 const AxiosInterceptor = ({ children }:any) => {
     const navigate = useNavigate();
+    const location = useLocation();
+
     useEffect(() => {
       const resInterceptor = async (response:any) => {
-        await sleep(1500);
+        await sleep(1100);
         return response;
       };
   
-      const errInterceptor = (error:AxiosError) => {
-
+      const errInterceptor = async (error:AxiosError) => {
+        await sleep(1500);
         const {data, status, config}:any = error.response!; 
         if(status === 400){
           if(typeof data === 'string'){
@@ -33,7 +48,6 @@ const AxiosInterceptor = ({ children }:any) => {
           }
 
           if(config.method === 'get' && data.errors.hasOwnProperty('Id')){
-            console.log("Made it");
             navigate('/not-found');
           }
 
@@ -50,7 +64,11 @@ const AxiosInterceptor = ({ children }:any) => {
           }
         }
         if(status === 401){
-
+          const pathname = location.pathname;
+          if(pathname !== '/login'){
+            toast.error("Please login to view this content");
+            navigate('/');
+          }
         }
         if (status === 404) {
           navigate("/not-found");
@@ -68,7 +86,7 @@ const AxiosInterceptor = ({ children }:any) => {
       );
   
       return () => activities_api.interceptors.response.eject(interceptor);
-    }, []);
+    }, [navigate, location.pathname]);
   
     return children;
   };

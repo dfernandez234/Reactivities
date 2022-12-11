@@ -1,30 +1,33 @@
-import React, { Fragment } from 'react';
-import Navbar from './components/layout/Navbar';
+import React, { Fragment, useEffect } from 'react';
 import 'semantic-ui-css/semantic.min.css'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { routes as appRoutes } from "./routes";
-import SingleActivity from './pages/SingleActivity';
 import 'react-calendar/dist/Calendar.css';
 import { ToastContainer } from 'react-toastify';
 import "react-datepicker/dist/react-datepicker.css";
-import NewActivityModal from './components/Activity/NewActivityModal';
+import * as index from './pages/index';
+import ModalSmall from './components/Common/Modal/ModalSmall';
+import ModalLarge from './components/Common/Modal/ModalLarge';
 
 function App() {
   return (
     <Fragment>
+      <ModalSmall/>
+      <ModalLarge/>
       <ToastContainer position='bottom-right'/>
-          <Navbar />
           <Routes>
-            {appRoutes.map((route) => (
-              <Route
-                key={route.key}
-                path={route.path}
-                element={<route.component />}
-              />
-            ))}
-            <Route path="activities/:id" element={<SingleActivity/>}/>
+            <Route path='/' element={<index.ProtectedRoute>
+              <index.SharedLayout/>
+              </index.ProtectedRoute>}
+            >
+              <Route path='activities' element={<index.Activities/>}/>
+              <Route path="activities/:id" element={<index.SingleActivity/>}/>
+              <Route path='errors' element={<index.TestErrors/>}/>
+            </Route>
+            <Route index path='/landing' element={<index.Landing/>}/>
+            <Route path='/login' element={<index.Login/>}/>
+            <Route path='/serverError' element={<index.ServerError/>}/>
+            <Route path='*' element={<index.NotFound/>} />
           </Routes>
-          <NewActivityModal/>
     </Fragment>
   );
 }

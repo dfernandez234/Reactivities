@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { Container } from 'semantic-ui-react';
 import { useAppDispatch } from '../app/hooks';
-import EditActivityModal from '../components/Activity/EditActivityModal';
 import ActivityDetails from '../components/ActivityDetails/ActivityDetails';
 import { getSingleActivity } from '../features/Activities/activitesSlice';
 
@@ -19,7 +18,6 @@ const SingleActivity = () => {
     return (
         <Container textAlign='center' style={{marginTop: '7em'}}>
             <ActivityDetails id={id}/>
-            <EditActivityModal/>
         </Container>
     )
 }

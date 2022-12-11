@@ -59,7 +59,14 @@ namespace Reactivities.API.Controllers
         {
             if(await userManager.Users.AnyAsync(x => x.Email == registerRequest.Email))
             {
-                return BadRequest($"User with the email {registerRequest.Email} already exists");
+                ModelState.AddModelError("email", $"Email {registerRequest.Email} is already registered");
+                return ValidationProblem();
+            }
+
+            if (await userManager.Users.AnyAsync(x => x.UserName == registerRequest.Username))
+            {
+                ModelState.AddModelError("email", $"Username {registerRequest.Username} is already registered");
+                return ValidationProblem();
             }
 
             var user = new AppUser

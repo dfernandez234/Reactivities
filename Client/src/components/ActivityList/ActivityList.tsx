@@ -25,8 +25,8 @@ const ActivityList = () => {
               )
             })}
           </Fragment>
-        );
-      })};
+        )
+      })}
     </>
   );
 }

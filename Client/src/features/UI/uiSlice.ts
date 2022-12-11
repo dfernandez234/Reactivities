@@ -1,33 +1,43 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { JsxElement } from "typescript";
 
 interface UIState{
-    createModalOpen: boolean
-    editModalOpen: boolean
+    open: boolean;
+    openLarge: boolean;
+    body: JSX.Element | null
 }
 
 const initialState: UIState = {
-    createModalOpen: false,
-    editModalOpen: false
+    open: false,
+    openLarge: false,
+    body: null
 }
 
 export const UISlice = createSlice({
     name: 'ui_slice',
     initialState,
     reducers: {
-        toggleCreateModal(state){
-            if(state.editModalOpen)
-                state.editModalOpen = !state.editModalOpen
+        openModalSmall:(state, action:PayloadAction<JSX.Element>) => {
+            state.open = true;
+            state.body = action.payload;
+        },
 
-            state.createModalOpen = !state.createModalOpen;
+        closeModalSmall:(state) => {
+            state.open = false;
+            state.body = null;
         },
-        toggleEditModal(state){
-            if(state.createModalOpen)
-                state.createModalOpen = !state.createModalOpen
-                
-            state.editModalOpen = !state.editModalOpen;
+
+        openModalLarge:(state, action:PayloadAction<JSX.Element>) => {
+            state.openLarge = true;
+            state.body = action.payload;
         },
+
+        closeModalLarge:(state) => {
+            state.openLarge = false;
+            state.body = null;
+        }
     }
 })
 
-export const {toggleCreateModal, toggleEditModal} = UISlice.actions;
+export const {openModalSmall, closeModalSmall, openModalLarge, closeModalLarge} = UISlice.actions;
 export default UISlice.reducer; 

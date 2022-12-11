@@ -3,7 +3,8 @@ import React from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Link } from 'react-router-dom';
 import { toggleEditing } from '../../features/Activities/activitesSlice';
-import { toggleEditModal } from '../../features/UI/uiSlice';
+import { openModalLarge } from '../../features/UI/uiSlice';
+import EditActivityForm from '../Activity/EditActvityForm';
 
 interface props{
     id:string|undefined
@@ -27,8 +28,7 @@ const ActivityDetailsHeader = (props:props) => {
     const dispatch = useAppDispatch();
 
     const toggleHandler = () => {
-        dispatch(toggleEditing()); 
-        dispatch(toggleEditModal());
+        dispatch(openModalLarge(<EditActivityForm/>))
     }
 
     return (

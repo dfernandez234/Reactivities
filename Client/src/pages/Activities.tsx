@@ -5,14 +5,12 @@ import { getAllActivities } from '../features/Activities/allActivitiesSlice';
 import { Container, Grid } from 'semantic-ui-react';
 import ActivityFilters from '../components/ActivityList/ActivityFilters';
 
-const Home = () => {
+const Activities = () => {
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
     dispatch(getAllActivities());
   }, [dispatch])
-
-
 
   return (
     <Fragment>
@@ -30,5 +28,5 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Activities
 
