@@ -1,8 +1,13 @@
 import React from 'react'
 import { Segment, List, Item, Label, Image } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import { Profile } from '../../models/profilte'
 
-const ActivityDetailedSidebar = () => {
+interface Props{
+  attendees: Profile[]
+}
+
+const ActivityDetailedSidebar = (props: Props) => {
   return (
     <>
       <Segment
@@ -13,11 +18,12 @@ const ActivityDetailedSidebar = () => {
         inverted
         color='teal'
       >
-        3 People Going
+        {props.attendees.length} {props.attendees.length === 1 ? 'Person' : 'People'} Going
       </Segment>
       <Segment attached textAlign='left'>
         <List relaxed divided>
-          <Item style={{position: 'relative'}}>
+          {props.attendees.map(attendee => (
+            <Item style={{position: 'relative'}} key={attendee.username}>
             <Label
               style={{position:'absolute'}}
               color="orange"
@@ -28,30 +34,12 @@ const ActivityDetailedSidebar = () => {
             <Image size='tiny' src={'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'}/>
             <Item.Content verticalAlign='middle'>
               <Item.Header as='h3'>
-                <Link to={'#'}>Bob</Link>
+                <Link to={`/profiles.${attendee.username}`}>{attendee.displayName}</Link>
               </Item.Header>
               <Item.Extra style={{color: 'orange'}}>Following</Item.Extra>
             </Item.Content>
-          </Item>
-
-          <Item style={{position: 'relative'}}>
-            <Image size='tiny' src={'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'}/>
-            <Item.Content verticalAlign='middle'>
-              <Item.Header as='h3'>
-                <Link to={'#'}>Tom</Link>
-              </Item.Header>
-              <Item.Extra style={{color: 'orange'}}>Following</Item.Extra>
-            </Item.Content>            
-          </Item>
-
-          <Item style={{position: 'relative'}}>
-            <Image size='tiny' src={'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'}/>
-            <Item.Content verticalAlign='middle'>
-              <Item.Header as='h3'>
-                <Link to={'#'}>Sally</Link>
-              </Item.Header>
-            </Item.Content>            
-          </Item>
+            </Item>
+          ))}
         </List>
       </Segment>
     </>

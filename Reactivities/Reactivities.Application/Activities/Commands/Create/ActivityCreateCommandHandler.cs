@@ -1,7 +1,9 @@
 ﻿using Application.Core;
 using AutoMapper;
 using MediatR;
-using Reactivities.Domain.Entities.Activity;
+using Microsoft.EntityFrameworkCore;
+using Reactivities.Application.Interfaces;
+using Reactivities.Domain.Entities;
 using Reactivities.Infrastructure.Persistence.Context;
 using System;
 using System.Collections.Generic;
@@ -15,26 +17,37 @@ namespace Reactivities.Application.Activities.Commands.Create
     {
         private ApplicationDbContext context;
         private IMapper mapper;
+        private readonly IUserAccessor userAccessor;
 
-        public ActivityCreateCommandHandler(ApplicationDbContext context, IMapper mapper)
+        public ActivityCreateCommandHandler(ApplicationDbContext context, IMapper mapper, IUserAccessor userAccessor)
         {
             this.context = context;
             this.mapper = mapper;
+            this.userAccessor = userAccessor;
         }
 
         async Task<ServiceResponse<Unit>> IRequestHandler<ActivityCreateCommand, ServiceResponse<Unit>>.Handle(ActivityCreateCommand request, CancellationToken cancellationToken)
         {
-            try
-            {
-                await context.Activities.AddAsync(mapper.Map<Activity>(request.CreateRequest), cancellationToken);
-                await context.SaveChangesAsync(cancellationToken);
+            var user = await context.Users.FirstOrDefaultAsync(x =>
+            x.Email == userAccessor.GetUsername());
 
-                return ServiceResponse<Unit>.Success(Unit.Value);
-            }
-            catch(Exception ex)
+            var activity = mapper.Map<Activity>(request.CreateRequest);
+
+            var attendee = new ActivityAttendee
             {
-                throw new Exception(ex.Message);
-            }
+                AppUser = user,
+                Activity = activity,
+                IsHost = true,
+            };
+            
+            activity.Attendees.Add(attendee);
+            context.Activities.Add(activity);
+
+            var result = await context.SaveChangesAsync() > 0;
+
+            if (!result) return ServiceResponse<Unit>.Failure("Failed to create activity");
+
+            return ServiceResponse<Unit>.Success(Unit.Value);
         }
     }
 }

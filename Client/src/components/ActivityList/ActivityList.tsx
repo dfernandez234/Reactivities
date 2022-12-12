@@ -21,7 +21,7 @@ const ActivityList = () => {
             </Header>
             {activities.map((activity:IActivity) => {
               return(
-                <ActivityListItem key={activity.id} activity={activity}/>
+                <ActivityListItem key={activity.activityId} activity={activity}/>
               )
             })}
           </Fragment>

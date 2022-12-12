@@ -23,20 +23,33 @@ const EditActivityForm = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        const date = new Date(activity.EditingActivity.date);
-        if(!isNaN(date.getTime())){
-            const result = format(date, 'MMMM d, yyyy h:mm aa')
-            setDate(result);
+        if(activity.EditingActivity){
+            const date = new Date(activity.EditingActivity.date);
+            if(!isNaN(date.getTime())){
+                const result = format(date, 'MMMM d, yyyy h:mm aa')
+                setDate(result);
+            }
         }
-    }, [activity.EditingActivity.date])
+    }, [activity.EditingActivity])
 
     var initialInputs:IActivityCreate = {
-        title: activity.EditingActivity.title,
+        title: '',
         date: initDate,
-        description: activity.EditingActivity.description,
-        category: activity.EditingActivity.category,
-        city: activity.EditingActivity.city,
-        venue: activity.EditingActivity.venue
+        description: '',
+        category: '',
+        city: '',
+        venue: ''
+    };
+
+    if(activity.EditingActivity){
+        initialInputs = {
+            title: activity.EditingActivity.title,
+            date: initDate,
+            description: activity.EditingActivity.description,
+            category: activity.EditingActivity.category,
+            city: activity.EditingActivity.city,
+            venue: activity.EditingActivity.venue
+        }
     }
 
     const validationSchema = Yup.object({

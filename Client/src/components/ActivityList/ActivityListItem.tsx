@@ -2,6 +2,7 @@ import React from 'react'
 import { IActivity } from '../../models/activity'
 import { Button, Icon, Item, Label, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom'
+import ActivityListAttendee from './ActivityListAttendee';
 
 interface Props{
   activity: IActivity
@@ -15,7 +16,7 @@ const ActivityListItem = (props:Props) => {
           <Item>
             <Item.Image style={{marginBottom: 5}} size='tiny' circular src={'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'} />
             <Item.Content>
-              <Item.Header as={Link} to={`/activities/${props.activity.id}`}>
+              <Item.Header as={Link} to={`/activities/${props.activity.activityId}`}>
                 {props.activity.title}
               </Item.Header>
               <Item.Description>Hosted by Bob</Item.Description>
@@ -30,13 +31,13 @@ const ActivityListItem = (props:Props) => {
         </span>
       </Segment>
       <Segment secondary>
-        Attendees go here
+        <ActivityListAttendee activity={props.activity}/>
       </Segment>
       <Segment clearing>
         <span>{props.activity.description}</span>
         <Button
           as={Link}
-          to={`/activities/${props.activity.id}`}
+          to={`/activities/${props.activity.activityId}`}
           color='teal'
           floated='right'
           content='View'

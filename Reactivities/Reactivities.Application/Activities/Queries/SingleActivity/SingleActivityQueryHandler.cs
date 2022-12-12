@@ -1,6 +1,7 @@
 ﻿using Application.Core;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Reactivities.Contracts.Activities;
 using Reactivities.Infrastructure.Persistence.Context;
 using System;
@@ -23,7 +24,11 @@ namespace Reactivities.Application.Activities.Queries.SingleActivity
 
         async Task<ServiceResponse<GetActivityResponse>> IRequestHandler<SingleActivityQuery, ServiceResponse<GetActivityResponse>>.Handle(SingleActivityQuery request, CancellationToken cancellationToken)
         {
-            var activity = await context.Activities.FindAsync(request.Id);
+            var activity = await context.Activities
+                .Include(a => a.Attendees)
+                .ThenInclude(u => u.AppUser)
+                .FirstOrDefaultAsync(q => q.ActivityId == request.Id);
+
             if (activity == null) 
             {
                 return ServiceResponse<GetActivityResponse>.Failure("Activity Not Found");

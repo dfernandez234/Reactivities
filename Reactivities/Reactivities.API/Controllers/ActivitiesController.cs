@@ -4,11 +4,13 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Reactivities.Application.Activities.Commands.Create;
 using Reactivities.Application.Activities.Commands.Delete;
 using Reactivities.Application.Activities.Commands.Edit;
 using Reactivities.Application.Activities.Queries.List;
 using Reactivities.Application.Activities.Queries.SingleActivity;
+using Reactivities.Application.Attendance.Commands;
 using Reactivities.Contracts.Activities;
 using Reactivities.Contracts.Authentication;
 
@@ -30,7 +32,7 @@ namespace Reactivities.API.Controllers
         [Authorize]
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<ServiceResponse<GetActivityResponse>>> GetSingleActivity(Guid Id)
+        public async Task<ActionResult<ServiceResponse<GetActivityResponse>>> GetSingleActivity(string Id)
         {
             if (Id.Equals(null))
             {
@@ -57,16 +59,17 @@ namespace Reactivities.API.Controllers
             return HandleResult(authResult);
         }
 
+        [Authorize(Policy = "IsActivityHost")]
         [HttpPut]
         [Route("{id}")]
-        public async Task<ActionResult<ServiceResponse<Unit>>> EditActivity(Guid id, [FromBody]EditRequest request)
+        public async Task<ActionResult<ServiceResponse<Unit>>> EditActivity(string id, [FromBody]EditRequest request)
         {
             if(request == null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
 
-            if(id.Equals(Guid.Empty))
+            if(id.IsNullOrEmpty())
             {
                 throw new ArgumentException("ID cannot be null");
             }
@@ -90,6 +93,16 @@ namespace Reactivities.API.Controllers
             var authResult = await Mediator.Send(command);
 
             return HandleResult(authResult);
+        }
+
+        [HttpPost]
+        [Route("{id}/attend")]
+        public async Task<ActionResult<ServiceResponse<Unit>>> Attend(string id)
+        {
+            var command = new UpdateAttendanceCommand(id);
+            var authResult = await Mediator.Send(command);
+
+            return authResult;
         }
     }
 }

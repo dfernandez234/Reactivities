@@ -10,6 +10,6 @@ using System.Threading.Tasks;
 namespace Reactivities.Application.Activities.Queries.SingleActivity
 {
     public record SingleActivityQuery(
-        Guid Id
+        string Id
         ):IRequest<ServiceResponse<GetActivityResponse>>;
 }

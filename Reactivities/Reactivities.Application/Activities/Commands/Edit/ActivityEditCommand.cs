@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Reactivities.Application.Activities.Commands.Edit
 {
     public record ActivityEditCommand(
-        Guid EditActivityId,
+        string EditActivityId,
         EditRequest EditRequest
         ):IRequest<ServiceResponse<Unit>>;
 }

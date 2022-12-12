@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Reactivities.Infrastructure.Persistence.Context;
 
@@ -11,9 +12,11 @@ using Reactivities.Infrastructure.Persistence.Context;
 namespace Reactivities.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221211230239_ActivityCancelled")]
+    partial class ActivityCancelled
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -174,9 +177,6 @@ namespace Reactivities.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsCancelled")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -191,111 +191,101 @@ namespace Reactivities.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            ActivityId = "b16a420b-2b43-46ec-9e04-1be283cd68cb",
+                            ActivityId = "608e0aea-1501-416c-9d3f-4d4405966883",
                             Category = "Drinks",
                             City = "London",
-                            Date = new DateTime(2022, 11, 11, 20, 49, 4, 769, DateTimeKind.Local).AddTicks(2676),
+                            Date = new DateTime(2022, 11, 11, 17, 2, 39, 359, DateTimeKind.Local).AddTicks(6013),
                             Description = "Activity 1 months ago",
-                            IsCancelled = false,
                             Title = "Past Activity 1",
                             Venue = "Pub"
                         },
                         new
                         {
-                            ActivityId = "6fa46c14-7d32-45af-9f49-96a93cca8e02",
+                            ActivityId = "8f4f2927-a5c8-4ab8-92e3-4103d17cef21",
                             Category = "Culture",
                             City = "Paris",
-                            Date = new DateTime(2022, 10, 11, 20, 49, 4, 769, DateTimeKind.Local).AddTicks(2725),
+                            Date = new DateTime(2022, 10, 11, 17, 2, 39, 359, DateTimeKind.Local).AddTicks(6061),
                             Description = "Activity 2 months ago",
-                            IsCancelled = false,
                             Title = "Past Activity 2",
                             Venue = "Louvre"
                         },
                         new
                         {
-                            ActivityId = "367d29d2-93fe-4346-bb60-030f82b5a404",
+                            ActivityId = "7811de8a-6615-42c0-b773-53f70b183f0c",
                             Category = "Culture",
                             City = "London",
-                            Date = new DateTime(2023, 1, 11, 20, 49, 4, 769, DateTimeKind.Local).AddTicks(2752),
+                            Date = new DateTime(2023, 1, 11, 17, 2, 39, 359, DateTimeKind.Local).AddTicks(6065),
                             Description = "Activity 1 month in future",
-                            IsCancelled = false,
                             Title = "Future Activity 1",
                             Venue = "Natural History Museum"
                         },
                         new
                         {
-                            ActivityId = "d1110c65-87ae-4fcf-af8e-761890a3c80a",
+                            ActivityId = "859435a1-d287-4efa-85ab-c3d229dcc876",
                             Category = "Music",
                             City = "London",
-                            Date = new DateTime(2023, 2, 11, 20, 49, 4, 769, DateTimeKind.Local).AddTicks(2756),
+                            Date = new DateTime(2023, 2, 11, 17, 2, 39, 359, DateTimeKind.Local).AddTicks(6068),
                             Description = "Activity 2 month in future",
-                            IsCancelled = false,
                             Title = "Future Activity 2",
                             Venue = "02 Arena"
                         },
                         new
                         {
-                            ActivityId = "dd01183f-901e-411f-abae-3e065cb57456",
+                            ActivityId = "bcdb7d9f-a5bd-4819-94d5-5c52941a7794",
                             Category = "Drinks",
                             City = "London",
-                            Date = new DateTime(2023, 3, 11, 20, 49, 4, 769, DateTimeKind.Local).AddTicks(2760),
+                            Date = new DateTime(2023, 3, 11, 17, 2, 39, 359, DateTimeKind.Local).AddTicks(6079),
                             Description = "Activity 3 month in future",
-                            IsCancelled = false,
                             Title = "Future Activity 3",
                             Venue = "Another Pub"
                         },
                         new
                         {
-                            ActivityId = "d50fc785-d15c-4faa-9e50-d456b132d508",
+                            ActivityId = "81e32fd0-2e0e-4f26-82fb-703c6740439c",
                             Category = "Drinks",
                             City = "London",
-                            Date = new DateTime(2023, 4, 11, 20, 49, 4, 769, DateTimeKind.Local).AddTicks(2764),
+                            Date = new DateTime(2023, 4, 11, 17, 2, 39, 359, DateTimeKind.Local).AddTicks(6083),
                             Description = "Activity 4 month in future",
-                            IsCancelled = false,
                             Title = "Future Activity 4",
                             Venue = "Just Another Pub"
                         },
                         new
                         {
-                            ActivityId = "457d8bc2-c043-47fd-a346-9c80bbb0faf6",
+                            ActivityId = "1199a9b9-8683-49f2-9397-095d37af2ecd",
                             Category = "Culture",
                             City = "Paris",
-                            Date = new DateTime(2023, 5, 11, 20, 49, 4, 769, DateTimeKind.Local).AddTicks(2767),
+                            Date = new DateTime(2023, 5, 11, 17, 2, 39, 359, DateTimeKind.Local).AddTicks(6086),
                             Description = "Activity 5 month in future",
-                            IsCancelled = false,
                             Title = "Future Activity 5",
                             Venue = "Musée d'Orsay"
                         },
                         new
                         {
-                            ActivityId = "15c98ad8-1a10-4a16-a4e2-ac00bd224b10",
+                            ActivityId = "2b31af69-0b36-443b-9ace-ca59b7aa00d3",
                             Category = "Music",
                             City = "Italy",
-                            Date = new DateTime(2023, 6, 11, 20, 49, 4, 769, DateTimeKind.Local).AddTicks(2831),
+                            Date = new DateTime(2023, 6, 11, 17, 2, 39, 359, DateTimeKind.Local).AddTicks(6090),
                             Description = "Activity 6 month in future",
-                            IsCancelled = false,
                             Title = "Future Activity 6",
                             Venue = "Coliseum"
                         },
                         new
                         {
-                            ActivityId = "d9a5dbeb-2b83-4263-83f7-d033b7f345b1",
+                            ActivityId = "f685ae68-cf18-43d8-ac05-8fdf7e9ccdec",
                             Category = "Drinks",
                             City = "London",
-                            Date = new DateTime(2023, 7, 11, 20, 49, 4, 769, DateTimeKind.Local).AddTicks(2836),
+                            Date = new DateTime(2023, 7, 11, 17, 2, 39, 359, DateTimeKind.Local).AddTicks(6094),
                             Description = "Activity 7 month in future",
-                            IsCancelled = false,
                             Title = "Future Activity 7",
                             Venue = "Another Pub Again"
                         },
                         new
                         {
-                            ActivityId = "66daebb2-b0f6-49d9-89f9-011b7a5151b3",
+                            ActivityId = "f8464cff-8b48-43c8-a376-37306cbe235f",
                             Category = "Drinks",
                             City = "Paris",
-                            Date = new DateTime(2023, 8, 11, 20, 49, 4, 769, DateTimeKind.Local).AddTicks(2841),
+                            Date = new DateTime(2023, 8, 11, 17, 2, 39, 359, DateTimeKind.Local).AddTicks(6098),
                             Description = "Activity 8 month in future",
-                            IsCancelled = false,
                             Title = "Future Activity 8",
                             Venue = "Ritz Hotel"
                         });
@@ -317,116 +307,6 @@ namespace Reactivities.Persistence.Migrations
                     b.HasIndex("ActivityId");
 
                     b.ToTable("ActivitiesAttendees");
-
-                    b.HasData(
-                        new
-                        {
-                            AppUserId = "3055acfb-e8b6-409c-8311-2302b75c37a9",
-                            ActivityId = "b16a420b-2b43-46ec-9e04-1be283cd68cb",
-                            IsHost = true
-                        },
-                        new
-                        {
-                            AppUserId = "3055acfb-e8b6-409c-8311-2302b75c37a9",
-                            ActivityId = "6fa46c14-7d32-45af-9f49-96a93cca8e02",
-                            IsHost = true
-                        },
-                        new
-                        {
-                            AppUserId = "53503633-08ab-4c93-a2a1-5f8ea67229fd",
-                            ActivityId = "6fa46c14-7d32-45af-9f49-96a93cca8e02",
-                            IsHost = false
-                        },
-                        new
-                        {
-                            AppUserId = "07065484-6bbd-4ddd-9fad-ec075a068141",
-                            ActivityId = "367d29d2-93fe-4346-bb60-030f82b5a404",
-                            IsHost = true
-                        },
-                        new
-                        {
-                            AppUserId = "53503633-08ab-4c93-a2a1-5f8ea67229fd",
-                            ActivityId = "367d29d2-93fe-4346-bb60-030f82b5a404",
-                            IsHost = false
-                        },
-                        new
-                        {
-                            AppUserId = "3055acfb-e8b6-409c-8311-2302b75c37a9",
-                            ActivityId = "d1110c65-87ae-4fcf-af8e-761890a3c80a",
-                            IsHost = true
-                        },
-                        new
-                        {
-                            AppUserId = "07065484-6bbd-4ddd-9fad-ec075a068141",
-                            ActivityId = "d1110c65-87ae-4fcf-af8e-761890a3c80a",
-                            IsHost = false
-                        },
-                        new
-                        {
-                            AppUserId = "53503633-08ab-4c93-a2a1-5f8ea67229fd",
-                            ActivityId = "dd01183f-901e-411f-abae-3e065cb57456",
-                            IsHost = true
-                        },
-                        new
-                        {
-                            AppUserId = "3055acfb-e8b6-409c-8311-2302b75c37a9",
-                            ActivityId = "dd01183f-901e-411f-abae-3e065cb57456",
-                            IsHost = false
-                        },
-                        new
-                        {
-                            AppUserId = "53503633-08ab-4c93-a2a1-5f8ea67229fd",
-                            ActivityId = "d50fc785-d15c-4faa-9e50-d456b132d508",
-                            IsHost = true
-                        },
-                        new
-                        {
-                            AppUserId = "3055acfb-e8b6-409c-8311-2302b75c37a9",
-                            ActivityId = "457d8bc2-c043-47fd-a346-9c80bbb0faf6",
-                            IsHost = true
-                        },
-                        new
-                        {
-                            AppUserId = "53503633-08ab-4c93-a2a1-5f8ea67229fd",
-                            ActivityId = "457d8bc2-c043-47fd-a346-9c80bbb0faf6",
-                            IsHost = false
-                        },
-                        new
-                        {
-                            AppUserId = "07065484-6bbd-4ddd-9fad-ec075a068141",
-                            ActivityId = "15c98ad8-1a10-4a16-a4e2-ac00bd224b10",
-                            IsHost = true
-                        },
-                        new
-                        {
-                            AppUserId = "53503633-08ab-4c93-a2a1-5f8ea67229fd",
-                            ActivityId = "15c98ad8-1a10-4a16-a4e2-ac00bd224b10",
-                            IsHost = false
-                        },
-                        new
-                        {
-                            AppUserId = "3055acfb-e8b6-409c-8311-2302b75c37a9",
-                            ActivityId = "d9a5dbeb-2b83-4263-83f7-d033b7f345b1",
-                            IsHost = true
-                        },
-                        new
-                        {
-                            AppUserId = "07065484-6bbd-4ddd-9fad-ec075a068141",
-                            ActivityId = "d9a5dbeb-2b83-4263-83f7-d033b7f345b1",
-                            IsHost = false
-                        },
-                        new
-                        {
-                            AppUserId = "07065484-6bbd-4ddd-9fad-ec075a068141",
-                            ActivityId = "66daebb2-b0f6-49d9-89f9-011b7a5151b3",
-                            IsHost = true
-                        },
-                        new
-                        {
-                            AppUserId = "53503633-08ab-4c93-a2a1-5f8ea67229fd",
-                            ActivityId = "66daebb2-b0f6-49d9-89f9-011b7a5151b3",
-                            IsHost = false
-                        });
                 });
 
             modelBuilder.Entity("Reactivities.Domain.Entities.AppUser", b =>
@@ -503,52 +383,49 @@ namespace Reactivities.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3055acfb-e8b6-409c-8311-2302b75c37a9",
+                            Id = "df9291d3-a4df-454b-97b0-afd7e72d9a0d",
                             AccessFailedCount = 0,
                             Bio = "",
-                            ConcurrencyStamp = "5cf6b718-a6b1-48e0-b18f-81e5d27ce780",
+                            ConcurrencyStamp = "5a4ff96a-88e2-4f4c-9b97-6dc38210cd4b",
                             DisplayName = "Bob",
                             Email = "bob@test.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            NormalizedEmail = "BOB@TEST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKkJVUryDpOn3QK1TcC1Gyjk0bmfUudUBB47YkjHxzf6pdl4auOoFAP2+hbUEuUPpg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKIF3NAvpDUXx5wraEkDFIsopK4+dnHdIlBLmuGm4aqSa6Pl2aG/IIWJ01vfTv3ogw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7cbdc912-0131-438c-9c61-f3b02b4d1d36",
+                            SecurityStamp = "23583915-febd-4fa6-a2fd-7646d5208257",
                             TwoFactorEnabled = false,
                             UserName = "bob"
                         },
                         new
                         {
-                            Id = "53503633-08ab-4c93-a2a1-5f8ea67229fd",
+                            Id = "28606032-d6fc-4d08-9e76-dc4237fa5a3d",
                             AccessFailedCount = 0,
                             Bio = "",
-                            ConcurrencyStamp = "858e7280-0a47-4243-8735-9ba0f3942619",
+                            ConcurrencyStamp = "25fd1950-2675-4771-941e-3bf240637246",
                             DisplayName = "Tom",
                             Email = "tom@test.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            NormalizedEmail = "TOM@TEST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEI/R96Yust3tU2+KQ9mb9DSK0hyp+CoAp2gHqfUrKRI+s/LevLy5q3GyQxzYJ3f0zA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIIOZLllwMEo6mRfSqNKZpZiq6kbU22LaHB+0ldA+POcfH0nre0wh2Tc3GuSJiYVkQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "411b51f3-9890-435e-b496-32f426a623eb",
+                            SecurityStamp = "0fbd095e-fa43-4359-bcfb-ced072929a05",
                             TwoFactorEnabled = false,
                             UserName = "tom"
                         },
                         new
                         {
-                            Id = "07065484-6bbd-4ddd-9fad-ec075a068141",
+                            Id = "2c17a51e-b074-4576-b6b5-94335686303d",
                             AccessFailedCount = 0,
                             Bio = "",
-                            ConcurrencyStamp = "fa1518c7-864e-4dc6-8902-77a80ae2766b",
+                            ConcurrencyStamp = "3b5dcd64-368f-4338-b07e-101e5a93da60",
                             DisplayName = "Jane",
                             Email = "jane@test.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            NormalizedEmail = "JANE@TEST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJVjHkp3v7yPeuP1pgPL/0PVKcV9A6XUaIxbfxuLKR5skksWoOsEES8f1MewN2WNDg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELd+x6yyievoYXuDXA3bsWbVPVuIo6ecXNJuUn8Ay4iBIK1Nt/3CAmjTJiD/fnyzow==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "71db655d-ac5c-4afb-95e0-268dce753674",
+                            SecurityStamp = "020d9cff-59cc-4df4-8a3e-a35458776ded",
                             TwoFactorEnabled = false,
                             UserName = "jane"
                         });

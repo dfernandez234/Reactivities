@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.Core;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using FluentResults;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -28,9 +29,11 @@ namespace Reactivities.Application.Activities.Queries.List
 
         public async Task<ServiceResponse<List<GetActivityResponse>>> Handle(ListQuery request, CancellationToken cancellationToken)
         {
-            var activites = mapper.Map<List<GetActivityResponse>>(await context.Activities.ToListAsync());
+            var activites = await context.Activities
+                .ProjectTo<GetActivityResponse>(mapper.ConfigurationProvider)
+                .ToListAsync();
 
-            return ServiceResponse<List<GetActivityResponse>>.Success(activites);
+            return ServiceResponse<List<GetActivityResponse>>.Success(mapper.Map<List<GetActivityResponse>>(activites));
         }
     }
 

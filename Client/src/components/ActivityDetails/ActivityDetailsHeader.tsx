@@ -1,5 +1,5 @@
 import {Button, Header, Item, Segment, Image, Label} from 'semantic-ui-react'
-import React from 'react'
+import React, { Fragment } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Link } from 'react-router-dom';
 import { toggleEditing } from '../../features/Activities/activitesSlice';
@@ -32,35 +32,39 @@ const ActivityDetailsHeader = (props:props) => {
     }
 
     return (
-        <Segment.Group>
-            <Segment basic attached='top' style={{padding: '0'}}>
-                <Image src={`https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg`} fluid style={activityImageStyle}/>
-                <Segment style={activityImageTextStyle} basic>
-                    <Item.Group>
-                        <Item>
-                            <Item.Content>
-                                <Header
-                                        size='huge'
-                                        content={detailedActivity.title}
-                                        style={{color: 'white'}}
-                                    />
-                                    <p>{detailedActivity.date}</p>
-                                    <p>
-                                        Hosted by <strong>Bob</strong>
-                                    </p>                                
-                            </Item.Content>
-                        </Item>
-                    </Item.Group>
-                </Segment>
-            </Segment>
-            <Segment clearing attached='bottom'>
-                <Button color='teal' floated='left'>John Activity</Button>
-                <Button floated='left'>Cancel Attendance</Button>
-                <Button color='orange' floated='right' type='button' onClick={toggleHandler}>
-                    Manage Event
-                </Button>
-            </Segment>
-        </Segment.Group>
+        <Fragment>
+            {detailedActivity &&
+            <Segment.Group>
+                    <Segment basic attached='top' style={{padding: '0'}}>
+                        <Image src={`https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg`} fluid style={activityImageStyle}/>
+                        <Segment style={activityImageTextStyle} basic>
+                            <Item.Group>
+                                <Item>
+                                    <Item.Content>
+                                        <Header
+                                                size='huge'
+                                                content={detailedActivity.title}
+                                                style={{color: 'white'}}
+                                            />
+                                            <p>{detailedActivity.date}</p>
+                                            <p>
+                                                Hosted by <strong>Bob</strong>
+                                            </p>                                
+                                    </Item.Content>
+                                </Item>
+                            </Item.Group>
+                        </Segment>
+                    </Segment>
+                    <Segment clearing attached='bottom'>
+                        <Button color='teal' floated='left'>John Activity</Button>
+                        <Button floated='left'>Cancel Attendance</Button>
+                        <Button color='orange' floated='right' type='button' onClick={toggleHandler}>
+                            Manage Event
+                        </Button>
+                    </Segment>
+                </Segment.Group>
+            }
+        </Fragment>
     )
 }
 

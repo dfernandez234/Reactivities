@@ -5,7 +5,7 @@ import { createActivityThunk, deleteActivityThunk, getSingleActivityThunk, updat
 
 interface activitiesState{
     Activities: IActivity[],
-    EditingActivity: IActivity,
+    EditingActivity: IActivity | null,
     isLoading: boolean,
     isEditing: boolean,
     isCreating: boolean,
@@ -13,15 +13,7 @@ interface activitiesState{
 
 const initialState:activitiesState = {
     Activities: [],
-    EditingActivity:{
-        id: "",
-        title: "",
-        date: "",
-        description: "",
-        category: "",
-        city: "",
-        venue: "",
-    },
+    EditingActivity:null,
     isLoading: false,
     isEditing: false,
     isCreating: false,
@@ -112,7 +104,7 @@ const ActivitiesSlice = createSlice({
 
         builder.addCase(updateActivity.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.EditingActivity = action.payload.data;
+            state.EditingActivity = action.payload;
             toast.success("Activity Updated!");
         })
 
