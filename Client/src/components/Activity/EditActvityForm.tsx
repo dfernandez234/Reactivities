@@ -1,6 +1,6 @@
 import { Formik, Form } from 'formik'
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Segment, Button } from 'semantic-ui-react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { IActivityCreate } from '../../models/createActivity'
@@ -14,13 +14,15 @@ import MyDateInput from '../Common/Form/DateInput'
 import { categoryOptions } from '../Common/Options/categoryOptions'
 import { format } from 'date-fns'
 import { closeModalLarge } from '../../features/UI/uiSlice'
+import { ActivityFormValues } from '../../models/activity'
 
 const EditActivityForm = () => {
     const [initDate, setDate] = useState<string>('');
 
-    const { id } = useParams();
     const activity = useAppSelector((state) => state.Activities);
+    const id = activity.EditingActivity?.activityId;
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if(activity.EditingActivity){
@@ -32,7 +34,7 @@ const EditActivityForm = () => {
         }
     }, [activity.EditingActivity])
 
-    var initialInputs:IActivityCreate = {
+    var initialInputs:ActivityFormValues = {
         title: '',
         date: initDate,
         description: '',
@@ -61,10 +63,10 @@ const EditActivityForm = () => {
         city: Yup.string().required('The activity city is required'),
     })
 
-    const onSubmitHandler = (updateHandler:IActivityCreate) => {
+    const onSubmitHandler = (updateHandler:ActivityFormValues) => {
         const post:IActivityEdit = {
              ActivityId: id,
-             data: updateHandler
+             data: new ActivityFormValues(updateHandler)
         }
         dispatch(updateActivity(post));
     }

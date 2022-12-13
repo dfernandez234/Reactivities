@@ -3,6 +3,7 @@ export interface User {
     token: string;
     username: string;
     image?: string;
+    bio?: string;
 }
 
 export interface registerRequest{

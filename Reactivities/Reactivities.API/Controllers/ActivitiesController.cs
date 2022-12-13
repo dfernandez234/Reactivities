@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Reactivities.Application.Activities.Commands.Cancel;
 using Reactivities.Application.Activities.Commands.Create;
 using Reactivities.Application.Activities.Commands.Delete;
 using Reactivities.Application.Activities.Commands.Edit;
@@ -96,13 +97,24 @@ namespace Reactivities.API.Controllers
         }
 
         [HttpPost]
-        [Route("{id}/attend")]
+        [Route("/attend/{id}")]
         public async Task<ActionResult<ServiceResponse<Unit>>> Attend(string id)
         {
             var command = new UpdateAttendanceCommand(id);
             var authResult = await Mediator.Send(command);
 
-            return authResult;
+            return HandleResult(authResult);
+        }
+
+        [Authorize(Policy = "IsActivityHost")]
+        [HttpPatch]
+        [Route("{id}")]
+        public async Task<ActionResult<ServiceResponse<Unit>>> CancelActivity(string id)
+        {
+            var command = new CancelActivityCommand(id);
+            var authResult = await Mediator.Send(command);
+
+            return HandleResult(authResult);
         }
     }
 }

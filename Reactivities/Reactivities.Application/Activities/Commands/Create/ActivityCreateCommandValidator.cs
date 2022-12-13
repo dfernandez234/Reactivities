@@ -11,6 +11,7 @@ namespace Reactivities.Application.Activities.Commands.Create
     {
         public ActivityCreateCommandValidator() 
         {
+            RuleFor(x => x.CreateRequest.ActivityId).NotEmpty();
             RuleFor(x => x.CreateRequest.Title).NotEmpty();
             RuleFor(x => x.CreateRequest.Date).NotEmpty();
             RuleFor(x => x.CreateRequest.Category).NotEmpty();

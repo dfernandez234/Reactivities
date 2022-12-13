@@ -17,7 +17,7 @@ namespace Reactivities.Contracts.Activities
         public string? City { get; set; }
         public string? Venue { get; set; }
         public string HostUsername { get; set; }
-        bool IsCancelled { get; set; }
+        public bool IsCancelled { get; set; }
         public List<Profile> Attendees { get; set; } = new List<Profile>();
     }
 }

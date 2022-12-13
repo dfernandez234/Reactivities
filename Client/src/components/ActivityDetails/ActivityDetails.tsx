@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { Grid } from 'semantic-ui-react';
-import { useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { getSingleActivity } from '../../features/Activities/activitesSlice';
 import LoadingScreen from '../../pages/LoadingScreen';
 import ActivityDetailedChat from './ActivityDetailedChat';
 import ActivityDetailedInfo from './ActivityDetailedInfo';
@@ -11,22 +12,33 @@ interface props{
     id:string | undefined
 }
 
-const ActivityDetails = (props:props) => {
-    const SingleActivity = useAppSelector((state) => state.Activities);
 
-    if(SingleActivity.isLoading) return <LoadingScreen/>
+const ActivityDetails = (props:props) => {
+    const EditingActivity = useAppSelector((state) => state.Activities);
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(getSingleActivity(props.id));
+    }, [dispatch, props.id]);
+
+
+    if(EditingActivity.isLoading) return <LoadingScreen/>
 
     return (
-        <Grid>
-            <Grid.Column width={10}>
-                <ActivityDetailsHeader id={props.id}/>
-                <ActivityDetailedInfo/>
-                <ActivityDetailedChat/>
-            </Grid.Column>
-            <Grid.Column width={6}>
-                <ActivityDetailedSidebar/>
-            </Grid.Column>
-        </Grid>
+        <Fragment>
+            {EditingActivity.EditingActivity && 
+            <Grid>
+                    <Grid.Column width={10}>
+                        <ActivityDetailsHeader id={props.id}/>
+                        <ActivityDetailedInfo/>
+                        <ActivityDetailedChat/>
+                    </Grid.Column>
+                    <Grid.Column width={6}>
+                        <ActivityDetailedSidebar/>
+                    </Grid.Column>
+                </Grid>
+            }
+        </Fragment>
     )
 }
 

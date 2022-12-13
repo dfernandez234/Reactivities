@@ -4,7 +4,7 @@ namespace Reactivities.Domain.Entities;
 public class Activity
 {
     [Key]
-    public string ActivityId { get; set; } = Guid.NewGuid().ToString();
+    public string ActivityId { get; set; } = "";
     public string Title { get; set; } = string.Empty;
     public DateTime Date { get; set; }
     public string Description { get; set; } = string.Empty;

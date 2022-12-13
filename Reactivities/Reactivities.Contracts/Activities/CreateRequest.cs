@@ -8,6 +8,7 @@ namespace Reactivities.Contracts.Activities
 {
     public class CreateRequest
     {
+        public string ActivityId { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
         public DateTime Date { get; set; }
         public string Description { get; set; } = string.Empty;

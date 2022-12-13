@@ -12,6 +12,9 @@ const ActivityListItem = (props:Props) => {
   return (
     <Segment.Group>
       <Segment>
+        {props.activity.isCancelled &&
+          <Label attached='top' color='red' content='Cancelled' style={{textAlign: 'center'}}/>
+        }
         <Item.Group>
           <Item>
             <Item.Image style={{marginBottom: 5}} size='tiny' circular src={'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'} />
@@ -19,7 +22,22 @@ const ActivityListItem = (props:Props) => {
               <Item.Header as={Link} to={`/activities/${props.activity.activityId}`}>
                 {props.activity.title}
               </Item.Header>
-              <Item.Description>Hosted by Bob</Item.Description>
+              <Item.Description>
+                {props.activity.isHost && (
+                  <Item.Description>
+                    <Label basic color='orange'>
+                      You are hosting this activity
+                    </Label>
+                  </Item.Description>
+                )}
+                {props.activity.isGoing && !props.activity.isHost && (
+                  <Item.Description>
+                    <Label basic color='green'>
+                      You are attending this activity
+                    </Label>
+                  </Item.Description>
+                )}
+              </Item.Description>
             </Item.Content>
           </Item>
         </Item.Group>

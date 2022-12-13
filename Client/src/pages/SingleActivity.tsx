@@ -6,14 +6,7 @@ import ActivityDetails from '../components/ActivityDetails/ActivityDetails';
 import { getSingleActivity } from '../features/Activities/activitesSlice';
 
 const SingleActivity = () => {
-    const dispatch = useAppDispatch();
-    const id = useParams().id;
-
-    useEffect(() => {
-        dispatch(getSingleActivity(id));
-    }, [dispatch, id]);
-
-
+    const id = useParams().ActivityId;
 
     return (
         <Container textAlign='center' style={{marginTop: '7em'}}>

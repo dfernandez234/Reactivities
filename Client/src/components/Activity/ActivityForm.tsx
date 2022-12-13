@@ -1,6 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Segment, Button } from 'semantic-ui-react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { IActivityCreate } from '../../models/createActivity'
@@ -12,9 +12,12 @@ import { categoryOptions } from '../Common/Options/categoryOptions'
 import MyDateInput from '../Common/Form/DateInput'
 import { createActivity } from '../../features/Activities/activitesSlice'
 import { closeModalLarge } from '../../features/UI/uiSlice'
+import { ActivityFormValues } from '../../models/activity'
+import {v4 as uuidv4} from 'uuid';
 
 const ActivityForm = () => {
-    var initialInputs:IActivityCreate = {
+    var initialInputs:ActivityFormValues = {
+        ActivityId: '',
         title: '',
         date: '',
         description: '',
@@ -34,10 +37,16 @@ const ActivityForm = () => {
 
     const activity = useAppSelector((state) => state.Activities);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
-    const onSubmitHandler = (submitObject : IActivityCreate) => { 
-        console.log(submitObject);
-        dispatch(createActivity(submitObject));
+    const onSubmitHandler = (submitObject : ActivityFormValues) => { 
+        var newActivity = new ActivityFormValues(submitObject);
+        const id = uuidv4().toString();
+        newActivity = {
+            ...newActivity,
+            ActivityId: id
+        }
+        dispatch(createActivity(newActivity)).then(() => {navigate(`/activities/${id}`)});
     }
     
     return (

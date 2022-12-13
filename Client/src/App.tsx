@@ -20,7 +20,7 @@ function App() {
               </index.ProtectedRoute>}
             >
               <Route path='activities' element={<index.Activities/>}/>
-              <Route path="activities/:id" element={<index.SingleActivity/>}/>
+              <Route path="activities/:ActivityId" element={<index.SingleActivity/>}/>
               <Route path='errors' element={<index.TestErrors/>}/>
             </Route>
             <Route index path='/landing' element={<index.Landing/>}/>

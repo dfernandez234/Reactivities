@@ -9,7 +9,7 @@ const Activities = () => {
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    dispatch(getAllActivities());
+    dispatch(getAllActivities({}));
   }, [dispatch])
 
   return (

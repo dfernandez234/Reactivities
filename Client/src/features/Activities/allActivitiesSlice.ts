@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import { IActivity } from "../../models/activity";
 import axios from "../../apis/activities"
+import { getAllActivitiesThunk } from "./activitiesThunk";
 
 interface allActivitiesState{
     Activities: IActivity[],
@@ -14,19 +15,7 @@ const initialState:allActivitiesState = {
     groupedActivities: []
 }
 
-export const getAllActivities = createAsyncThunk('activities/getAll', async (thunkAPI:any) => {
-    try{
-        const response = await axios['get']('activities');
-        return response.data;
-    }catch(err){
-        const error = err as any;
-        if (!error.response) {
-            throw err;
-        }
-        let sum = error.response.data;
-        return thunkAPI.rejectWithValue(`Something Went Wrong: ${sum.msg}`);
-    }
-}) as any;
+export const getAllActivities = createAsyncThunk('activities/getAll', getAllActivitiesThunk);
 
 const AllActivitiesSlice = createSlice({
     name: 'allActivities-slice',
@@ -39,19 +28,24 @@ const AllActivitiesSlice = createSlice({
         })
 
         builder.addCase(getAllActivities.rejected, (state, action) => {
-            state.isLoading = false;
-            const err:string = action.payload as string;
-            console.log(`${err}`);
+            console.log("Error")
         })
 
         builder.addCase(getAllActivities.fulfilled, (state, action) => {
-            state.Activities = action.payload.data;
+            state.Activities = action.payload.response.data;
 
             state.Activities.forEach((act) => {
                 act.date = act.date.split('T')[0];
+                act.isGoing = act.attendees.some(
+                    a => a.username === action.payload.username
+                );
+                act.isHost = act.hostUsername === action.payload.username;
+                act.host = act.attendees.find(x => x.username === act.hostUsername);
             })
 
             state.Activities.sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
+
+
 
             state.groupedActivities = Object.entries(
                 state.Activities.reduce((activities, activity) => {

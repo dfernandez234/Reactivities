@@ -59,6 +59,7 @@
     "@types/react-calendar": "^3.9.0",
     "@types/react-datepicker": "^4.8.0",
     "@types/styled-components": "^5.1.26",
+    "@types/uuid": "^9.0.0",
     "@types/yup": "^0.32.0",
     "yup": "^0.32.11"
   }
