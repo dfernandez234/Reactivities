@@ -4,6 +4,7 @@ import UIReducer from '../features/UI/uiSlice'
 import AllActivitiesReducer from '../features/Activities/allActivitiesSlice'
 import ServerErrorReducer from '../features/Errors/ServerErrorSlice'
 import AuthenticationReducer from '../features/Users/AuthenticationSlice'
+import ProfilesReducer from '../features/Profiles/ProfilesSlice'
 
 export const store = configureStore({
     reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
         Activities:ActivityReducer,
         UI:UIReducer,
         ServerError: ServerErrorReducer,
-        Authentication: AuthenticationReducer
+        Authentication: AuthenticationReducer,
+        Profiles: ProfilesReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false

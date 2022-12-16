@@ -37,5 +37,6 @@ namespace Reactivities.Infrastructure.Persistence.Context
 
         public DbSet<Activity> Activities { get; set; }
         public DbSet<ActivityAttendee> ActivitiesAttendees { get; set;}
+        public DbSet<Photo> Photos { get; set; }
     }
 }

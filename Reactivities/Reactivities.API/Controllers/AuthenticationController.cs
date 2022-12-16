@@ -35,7 +35,9 @@ namespace Reactivities.API.Controllers
         [Route("login")]
         public async Task<ActionResult<UserResponse>> Login([FromBody]LoginRequest loginRequest)
         {
-            var user = await userManager.FindByEmailAsync(loginRequest.Email);
+            var user = await userManager.Users.Include(p => p.Photos)
+                .FirstOrDefaultAsync(x => x.Email == loginRequest.Email);
+
             if (user == null)
             {
                 return Unauthorized();
@@ -45,7 +47,7 @@ namespace Reactivities.API.Controllers
                 return new UserResponse
                 {
                     DisplayName = user.DisplayName,
-                    Image = null,
+                    Image = user?.Photos?.FirstOrDefault(x => x.IsMain)?.Url,
                     Token = tokenGenerator.GenerateToken(user),
                     Username = user.UserName
                 };
@@ -90,7 +92,8 @@ namespace Reactivities.API.Controllers
         [HttpGet]
         public async Task<ActionResult<UserResponse>> GetCurrentUser()
         {
-            var user = await userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+            var user = await userManager.Users.Include(p => p.Photos)
+                .FirstOrDefaultAsync(x => x.Email == User.FindFirstValue(ClaimTypes.Email));
             return CreateUserObject(user);
         }
 
@@ -99,7 +102,7 @@ namespace Reactivities.API.Controllers
             return new UserResponse
             {
                 DisplayName = user.DisplayName,
-                Image = null,
+                Image = user?.Photos?.FirstOrDefault(x => x.IsMain)?.Url,
                 Username = user.UserName!,
                 Token = tokenGenerator.GenerateToken(user),
             };

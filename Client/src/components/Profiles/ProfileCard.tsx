@@ -11,7 +11,7 @@ interface props{
 const ProfileCard = (props:props) => {
   return (
     <Card as={Link} to={`/profiles/${props.profile.username}`}>
-        <Image src='https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png' />
+        <Image src={props.profile.image || 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'} />
         <Card.Content>
             <Card.Header>{props.profile.displayName}</Card.Header>
             <Card.Description>Bio goes here</Card.Description>

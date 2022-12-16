@@ -8,8 +8,9 @@ import ServerError from "../components/Errors/ServerError";
 import ProtectedRoute from '../components/Common/Private/ProtectedRoute';
 import SingleActivity from './SingleActivity';
 import TestErrors from "../components/Errors/TestError";
+import ProfilePage from "./ProfilePage";
 
 export{
     Activities, ErrorPage, SharedLayout, NotFound, Landing, Login, ServerError, 
-    ProtectedRoute, SingleActivity, TestErrors
+    ProtectedRoute, SingleActivity, TestErrors, ProfilePage
 }

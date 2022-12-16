@@ -1,18 +1,16 @@
-﻿using Reactivities.Contracts.Photos;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Reactivities.Contracts.Users
+namespace Reactivities.Contracts.Attendees
 {
-    public class Profile
+    public class AttendeeDTO
     {
         public string Username { get; set; }
         public string DisplayName { get; set; }
         public string Bio { get; set; }
         public string Image { get; set; }
-        public List<GetPhoto> Photos { get; set; }
     }
 }

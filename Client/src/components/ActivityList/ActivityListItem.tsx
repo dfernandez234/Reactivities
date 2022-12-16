@@ -17,11 +17,14 @@ const ActivityListItem = (props:Props) => {
         }
         <Item.Group>
           <Item>
-            <Item.Image style={{marginBottom: 5}} size='tiny' circular src={'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'} />
+            <Item.Image style={{marginBottom: 5}} size='tiny' circular src={props.activity.host?.image || 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png' }
+              as={Link} to={`/profiles/${props.activity.hostUsername}`}
+            />
             <Item.Content>
               <Item.Header as={Link} to={`/activities/${props.activity.activityId}`}>
                 {props.activity.title}
               </Item.Header>
+              <Item.Description>Hosted by <Link to={`/profiles/${props.activity.hostUsername}`}>{props.activity.hostUsername}</Link></Item.Description>
               <Item.Description>
                 {props.activity.isHost && (
                   <Item.Description>
@@ -38,6 +41,7 @@ const ActivityListItem = (props:Props) => {
                   </Item.Description>
                 )}
               </Item.Description>
+
             </Item.Content>
           </Item>
         </Item.Group>

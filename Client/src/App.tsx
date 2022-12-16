@@ -22,6 +22,7 @@ function App() {
               <Route path='activities' element={<index.Activities/>}/>
               <Route path="activities/:ActivityId" element={<index.SingleActivity/>}/>
               <Route path='errors' element={<index.TestErrors/>}/>
+              <Route path='profiles/:username' element={<index.ProfilePage/>}/>
             </Route>
             <Route index path='/landing' element={<index.Landing/>}/>
             <Route path='/login' element={<index.Login/>}/>

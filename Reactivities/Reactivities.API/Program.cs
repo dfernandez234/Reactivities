@@ -10,6 +10,7 @@ using Reactivities.Application.Common.Security;
 using Reactivities.Domain;
 using Reactivities.Infrastructure;
 using Reactivities.Infrastructure.Authentication;
+using Reactivities.Infrastructure.Photos;
 using System.Configuration;
 using System.Text;
 
@@ -52,6 +53,9 @@ builder.Services.AddAuthentication(options => {
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"]))
     };
 });
+
+//Cloudinary
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("Cloudinary"));
 
 builder.Services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
 

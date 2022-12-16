@@ -1,4 +1,5 @@
-﻿using Reactivities.Contracts.Users;
+﻿using Reactivities.Contracts.Attendees;
+using Reactivities.Contracts.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,6 @@ namespace Reactivities.Contracts.Activities
         public string? Venue { get; set; }
         public string HostUsername { get; set; }
         public bool IsCancelled { get; set; }
-        public List<Profile> Attendees { get; set; } = new List<Profile>();
+        public List<AttendeeDTO> Attendees { get; set; } = new List<AttendeeDTO>();
     }
 }
