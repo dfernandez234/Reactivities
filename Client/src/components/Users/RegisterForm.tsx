@@ -1,6 +1,6 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { Formik, Form } from 'formik'
 import React from 'react'
-import { Segment, Button, Header, Label } from 'semantic-ui-react'
+import { Segment, Button, Header } from 'semantic-ui-react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import * as Yup from 'yup'
 import MyTextInput from '../Common/Form/TextInput'
@@ -35,7 +35,7 @@ const ActivityForm = () => {
         dispatch(register(request)).then(() => {
             dispatch(closeModalSmall());
             navigate('/activities');
-          });
+        });
     }
     
     return (

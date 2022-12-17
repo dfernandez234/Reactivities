@@ -8,7 +8,7 @@ import ActivityForm from '../Activity/ActivityForm';
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((store) => store.Authentication.user);
+  const user = useAppSelector((store) => store.Profiles.profile);
   const navigate = useNavigate();
 
   const logoutHandler = () => {
@@ -29,9 +29,12 @@ const Navbar = () => {
                 <Button positive content='Create Activity' type='button' onClick={() => {dispatch(openModalLarge(<ActivityForm/>))}}/>
             </Menu.Item>
             <Menu.Item position='right'>
-              <Dropdown pointing='top left' text={user?.displayName}>
+              <div>
+                <Image src={user?.image} avatar style={{marginTop: 1, marginLeft: 1}}/>
+              </div>
+              <Dropdown pointing='top left' text={user?.displayName} style={{marginLeft: 2}}>
                 <Dropdown.Menu>
-                  <Dropdown.Item as={Link} to={`/profile/${user?.username}`} text="My Profile"/>
+                  <Dropdown.Item as={Link} to={`/profiles/${user?.username}`} text="My Profile"/>
                   <Dropdown.Item onClick={logoutHandler} icon='power'/>
                 </Dropdown.Menu>
               </Dropdown>

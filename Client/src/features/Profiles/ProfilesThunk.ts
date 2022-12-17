@@ -1,4 +1,5 @@
 import axios from "../../apis/activities"
+import { ProfileEdit } from "../../models/profile";
 
 export const GetUserInfoThunk = async (username:String, thunkAPI:any) => {
     try{
@@ -30,6 +31,19 @@ export const DeletePhotoThunk = async (ImageId:string, thunkAPI:any) => {
             data: response.data,
             ImageId: ImageId
         }
+    }catch(err){
+        return thunkAPI.rejectWithValue(err)
+    }
+}
+
+export const UpdateProfileThunk = async(ProfileEdit:ProfileEdit, thunkAPI:any) => {
+    try{
+        const requestBody = {displayName: ProfileEdit.displayName, bio: ProfileEdit.bio}
+        const response = await axios['put'](`/profiles/${ProfileEdit.username}`, requestBody);
+        return {
+            data: response.data,
+            updates: {displayName:ProfileEdit.displayName, bio: ProfileEdit.bio}
+        };
     }catch(err){
         return thunkAPI.rejectWithValue(err)
     }

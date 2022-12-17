@@ -6,6 +6,7 @@ using Reactivities.Application.Activities.Commands.Create;
 using Reactivities.Application.Activities.Commands.Edit;
 using Reactivities.Application.Common.Behaviors;
 using Reactivities.Application.Photos.Commands.Add;
+using Reactivities.Application.Profiles.Command;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace Reactivities.Application
             services.AddScoped<IValidator<ActivityCreateCommand>, ActivityCreateCommandValidator>();
             services.AddScoped<IValidator<ActivityEditCommand>, ActivityEditCommandValidator>();
             services.AddScoped<IValidator<AddPhoto.Command>, AddPhotoCommandValidator>();
+            services.AddScoped<IValidator<UpdateProfileCommand>, UpdateProfileCommandValidator>();
 
             return services;
         }

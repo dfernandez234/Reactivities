@@ -7,3 +7,9 @@ export interface Profile{
     bio?: string
     photos?: photo[]
 }
+
+export interface ProfileEdit{
+    username: string;
+    displayName: string;
+    bio: string;
+}

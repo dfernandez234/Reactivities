@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Action } from "@remix-run/router";
 import { Profile } from "../../models/profile";
-import { DeletePhotoThunk, GetUserInfoThunk, UploadPhotoThunk } from "./ProfilesThunk";
+import { DeletePhotoThunk, GetUserInfoThunk, UpdateProfileThunk, UploadPhotoThunk } from "./ProfilesThunk";
 import { store } from "../../app/store";
 import { getUserFromLocalStorage } from "../../utils/getUserFromLocalStorage";
 import { photo } from "../../models/photo";
@@ -9,19 +9,22 @@ import { photo } from "../../models/photo";
 interface profileState{
     profile: Profile | null,
     isLoading: boolean,
-    isCurrentUser: boolean
+    isCurrentUser: boolean,
+    errors: any | null
 }
 
 const initialState : profileState = {
     profile: null,
     isLoading: false,
-    isCurrentUser: false
+    isCurrentUser: false,
+    errors: null
 }
 
 
 export const getProfileInfo = createAsyncThunk('profiles/getInfo', GetUserInfoThunk);
 export const uploadPhoto = createAsyncThunk('profiles/uploadPhoto', UploadPhotoThunk);
 export const deletePhoto = createAsyncThunk('profiles/deletePhoto', DeletePhotoThunk);
+export const updateProfile = createAsyncThunk('profiles/updateProfile', UpdateProfileThunk);
 
 const profilesSlice = createSlice({
     name: 'profile_slice',
@@ -46,7 +49,7 @@ const profilesSlice = createSlice({
         })  
 
         builder.addCase(getProfileInfo.rejected, (state, Action:any) => {
-            console.log(Action.payload.data);
+            state.errors = Action.payload;
             state.isLoading = false;
         })
 
@@ -62,7 +65,7 @@ const profilesSlice = createSlice({
         })  
 
         builder.addCase(uploadPhoto.rejected, (state, Action:any) => {
-            console.log(Action.payload.data);
+            state.errors = Action.payload;
             state.isLoading = false;
         })
 
@@ -80,7 +83,7 @@ const profilesSlice = createSlice({
         })  
 
         builder.addCase(deletePhoto.rejected, (state, Action:any) => {
-            console.log(Action.payload.data);
+            state.errors = Action.payload;
             state.isLoading = false;
         })
 
@@ -90,6 +93,24 @@ const profilesSlice = createSlice({
             }
             state.isLoading = false;
         })  
+
+
+        
+        builder.addCase(updateProfile.pending , (state) => {
+            state.isLoading = true;
+        })  
+
+        builder.addCase(updateProfile.rejected, (state, Action:any) => {
+            state.errors = Action.payload;
+            state.isLoading = false;
+        })
+
+        builder.addCase(updateProfile.fulfilled, (state, Action) => {
+            
+            state.profile = {...state.profile, ...Action.payload.updates}
+
+            state.isLoading = false;
+        })
 
     }
 });
