@@ -10,10 +10,7 @@ const sleep = (milliseconds:number) => {
 
 const activities_api = axios.create({
     baseURL: 'https://localhost:7238/',
-    timeout: 3000,
-    headers: {
-        "content-type": "application/json",
-    },
+    timeout: 10000
 });
 
 activities_api.interceptors.request.use(
@@ -67,7 +64,7 @@ const AxiosInterceptor = ({ children }:any) => {
           const pathname = location.pathname;
           if(pathname !== '/login'){
             toast.error("Please login to view this content");
-            navigate('/');
+            navigate('/Landing');
           }
         }
         if (status === 404) {

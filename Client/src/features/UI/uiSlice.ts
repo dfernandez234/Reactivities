@@ -4,13 +4,17 @@ import { JsxElement } from "typescript";
 interface UIState{
     open: boolean;
     openLarge: boolean;
-    body: JSX.Element | null
+    body: JSX.Element | null,
+
+    dimmerOpen: boolean
 }
 
 const initialState: UIState = {
     open: false,
     openLarge: false,
-    body: null
+    body: null,
+
+    dimmerOpen: false
 }
 
 export const UISlice = createSlice({
@@ -35,9 +39,16 @@ export const UISlice = createSlice({
         closeModalLarge:(state) => {
             state.openLarge = false;
             state.body = null;
+        },
+
+        handleDimmerShow:(state) => {
+            state.dimmerOpen = true;
+        },
+        handleDimmerHide:(state) => {
+            state.dimmerOpen = false;
         }
     }
 })
 
-export const {openModalSmall, closeModalSmall, openModalLarge, closeModalLarge} = UISlice.actions;
+export const {openModalSmall, closeModalSmall, openModalLarge, closeModalLarge, handleDimmerHide, handleDimmerShow} = UISlice.actions;
 export default UISlice.reducer; 

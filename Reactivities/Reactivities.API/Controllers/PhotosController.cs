@@ -16,14 +16,16 @@ namespace Reactivities.API.Controllers
         [Route("add")]
         public async Task<ActionResult<ServiceResponse<Photo>>> AddPhoto([FromForm] AddPhoto.Command command)
         {
-            return HandleResult(await Mediator.Send(command));
+            var response = await Mediator.Send(command);
+            return HandleResult(response);
         }
 
         [HttpPost]
         [Route("delete/{id}")]
         public async Task<ActionResult<ServiceResponse<Unit>>> DeletePhoto(string Id)
         {
-            return HandleResult(await Mediator.Send(new DeletePhoto.Command { Id = Id }));
+            var response = await Mediator.Send(new DeletePhoto.Command { Id = Id });
+            return HandleResult(response);
         }
 
         [HttpPost]
