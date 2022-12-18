@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Reactivities.Application.Activities.Commands.Create;
 using Reactivities.Application.Activities.Commands.Edit;
+using Reactivities.Application.Comments.Commands;
 using Reactivities.Application.Common.Behaviors;
 using Reactivities.Application.Photos.Commands.Add;
 using Reactivities.Application.Profiles.Command;
@@ -29,6 +30,7 @@ namespace Reactivities.Application
             services.AddScoped<IValidator<ActivityEditCommand>, ActivityEditCommandValidator>();
             services.AddScoped<IValidator<AddPhoto.Command>, AddPhotoCommandValidator>();
             services.AddScoped<IValidator<UpdateProfileCommand>, UpdateProfileCommandValidator>();
+            services.AddScoped<IValidator<CreateCommentCommand>, CreateCommentCommandValidator>();
 
             return services;
         }

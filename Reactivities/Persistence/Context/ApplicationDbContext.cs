@@ -30,6 +30,11 @@ namespace Reactivities.Infrastructure.Persistence.Context
                 .WithMany(u => u.Attendees)
                 .HasForeignKey(uu => uu.ActivityId);
 
+            modelBuilder.Entity<Comment>()
+                .HasOne(a => a.Activity)
+                .WithMany(a => a.Comments)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.ApplyConfiguration(new ActivitiesConfiguration());
             modelBuilder.ApplyConfiguration(new UsersConfiguration());
             modelBuilder.ApplyConfiguration(new AttendeesConfiguration());
@@ -38,5 +43,6 @@ namespace Reactivities.Infrastructure.Persistence.Context
         public DbSet<Activity> Activities { get; set; }
         public DbSet<ActivityAttendee> ActivitiesAttendees { get; set;}
         public DbSet<Photo> Photos { get; set; }
+        public DbSet<Comment> Comments { get; set; }
     }
 }

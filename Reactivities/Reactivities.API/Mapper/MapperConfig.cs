@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Reactivities.Contracts.Activities;
 using Reactivities.Contracts.Attendees;
+using Reactivities.Contracts.Comments;
 using Reactivities.Contracts.Photos;
 using Reactivities.Domain.Entities;
 
@@ -25,6 +26,11 @@ namespace Reactivities.API.Mapper
                 .ForMember(d => d.Image, o => o.MapFrom(s => s.Photos.FirstOrDefault(x => x.IsMain).Url));
 
             CreateMap<Photo, GetPhoto>().ReverseMap();
+
+            CreateMap<Comment, CommentDTO>()
+                .ForMember(d => d.DisplayName, o => o.MapFrom(s => s.Author.DisplayName))
+                .ForMember(d => d.Username, o => o.MapFrom(s => s.Author.UserName))
+                .ForMember(d => d.Image, o => o.MapFrom(s => s.Author.Photos.FirstOrDefault(x => x.IsMain).Url));
         }
     }
 }

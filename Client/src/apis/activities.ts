@@ -32,7 +32,7 @@ const AxiosInterceptor = ({ children }:any) => {
 
     useEffect(() => {
       const resInterceptor = async (response:any) => {
-        await sleep(1100);
+        await sleep(1500);
         return response;
       };
   

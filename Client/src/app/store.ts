@@ -6,6 +6,9 @@ import ServerErrorReducer from '../features/Errors/ServerErrorSlice'
 import AuthenticationReducer from '../features/Users/AuthenticationSlice'
 import ProfilesReducer from '../features/Profiles/ProfilesSlice'
 
+import CommensReducer from '../features/Comments/CommentSlice'
+import chatMiddleware from './chatMiddleware'
+
 export const store = configureStore({
     reducer: {
         AllActivities: AllActivitiesReducer,
@@ -13,11 +16,12 @@ export const store = configureStore({
         UI:UIReducer,
         ServerError: ServerErrorReducer,
         Authentication: AuthenticationReducer,
-        Profiles: ProfilesReducer
+        Profiles: ProfilesReducer,
+        Comments: CommensReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false
-    }),
+    }).concat([chatMiddleware]),
 });
 
 export type RootState = ReturnType<typeof store.getState>

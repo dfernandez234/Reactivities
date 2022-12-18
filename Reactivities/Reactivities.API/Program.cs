@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.IdentityModel.Tokens;
 using Reactivities.API.Mapper;
 using Reactivities.API.Middleware;
+using Reactivities.API.SignalR;
 using Reactivities.Application;
 using Reactivities.Application.Common.Security;
 using Reactivities.Domain;
@@ -33,7 +34,7 @@ builder.Services.AddAutoMapper(typeof(MapperConfig));
 
 //CORS
 builder.Services.AddCors(options => {
-    options.AddPolicy("AllowAll", b => b.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
+    options.AddPolicy("AllowAll", b => b.AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithOrigins("http://localhost:3000"));
 });
 
 //Authentication
@@ -52,6 +53,20 @@ builder.Services.AddAuthentication(options => {
         ValidAudience = builder.Configuration["JwtSettings:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"]))
     };
+
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context => 
+        {
+            var accessToken = context.Request.Query["access_token"];
+            var path = context.HttpContext.Request.Path;
+            if(!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/chat")))
+            {
+                context.Token = accessToken;
+            }
+            return Task.CompletedTask;
+        }
+    };
 });
 
 //Cloudinary
@@ -69,14 +84,30 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
 
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 {
     app.UseMiddleware<ErrorHandlingMiddleware>();
-    app.UseHttpsRedirection();
-    app.UseCors("AllowAll");
+
+    // app.UseHttpsRedirection();
+
+    app.UseRouting();
+
+    app.UseCors(builder => {
+        builder.WithOrigins("http://localhost:3000")
+        .AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+    });
+
     app.UseAuthentication();
     app.UseAuthorization();
-    app.MapControllers();
+
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllers();
+        endpoints.MapHub<ChatHub>("/chat");
+    });
+
     app.Run();
 }
 

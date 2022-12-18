@@ -7,6 +7,8 @@ import ActivityDetailedChat from './ActivityDetailedChat';
 import ActivityDetailedInfo from './ActivityDetailedInfo';
 import ActivityDetailedSidebar from './ActivityDetailedSidebar';
 import ActivityDetailsHeader from './ActivityDetailsHeader';
+import { commentActions } from '../../features/Comments/CommentSlice';
+import { addActivityIdToLocalStorage } from '../../utils/getActivityFromLocalStorage';
 
 interface props{
     id:string | undefined
@@ -18,7 +20,9 @@ const ActivityDetails = (props:props) => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(getSingleActivity(props.id));
+        addActivityIdToLocalStorage(props.id!);
+        dispatch(getSingleActivity(props.id)
+        );
     }, [dispatch, props.id]);
 
 
