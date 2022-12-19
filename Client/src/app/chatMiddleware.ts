@@ -31,11 +31,15 @@ const chatMiddleware:Middleware = store => next => action => {
         });
 
         connection.on('LoadComments', (comments: ChatComment[]) => {
-            console.log(comments);
+            console.log(`Middleware load comments`)
+            console.log(comments)
+            store.dispatch(commentActions.setComments(comments));
         })
 
         connection.on('ReceiveComment', (comment: ChatComment) => {
-            console.log(comment);
+            console.log(`Middleware ReceiveComment`);
+            console.log(comment)
+            store.dispatch(commentActions.receiveComment(comment));
         })
     }
 

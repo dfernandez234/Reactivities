@@ -44,10 +44,12 @@ namespace Reactivities.Application.Comments.Commands
             {
                 Author = user,
                 Activity = activity,
-                Body = request.Body
+                Body = request.Body,
             };
 
-            var success = await context.SaveChangesAsync(cancellationToken) > 0;
+            activity.Comments.Add(comment);
+
+            var success = await context.SaveChangesAsync() > 0;
 
             if (success) return ServiceResponse<CommentDTO>.Success(mapper.Map<CommentDTO>(comment));
 

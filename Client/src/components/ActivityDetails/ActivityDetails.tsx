@@ -32,7 +32,7 @@ const ActivityDetails = (props:props) => {
         <Fragment>
             {EditingActivity.EditingActivity && 
             <Grid>
-                    <Grid.Column width={10}>
+                    <Grid.Column width={10} textAlign='left'>
                         <ActivityDetailsHeader id={props.id}/>
                         <ActivityDetailedInfo/>
                         <ActivityDetailedChat/>

@@ -10,7 +10,7 @@ const sleep = (milliseconds:number) => {
 
 const activities_api = axios.create({
     baseURL: 'https://localhost:7238/',
-    timeout: 10000
+    //timeout: 10000
 });
 
 activities_api.interceptors.request.use(

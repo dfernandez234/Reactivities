@@ -13,12 +13,7 @@ export const getAllActivitiesThunk = async (thunkAPI:any) => {
             username: getUserFromLocalStorage().username
         };
     }catch(err){
-        const error = err as any;
-        if (!error.response) {
-            throw err;
-        }
-        let sum = error.response.data;
-        return thunkAPI.rejectWithValue(`Something Went Wrong: ${sum.msg}`);
+        return thunkAPI.rejectWithValue(err)
     }
 }
 
@@ -30,12 +25,7 @@ export const getSingleActivityThunk = async (activityId:string, thunkAPI:any) =>
             username: thunkAPI.getState().Authentication.user.username
         };
     }catch(err){
-        const error = err as any;
-        if (!error.response) {
-            throw err;
-        }
-        let sum = error.response.data;
-        return thunkAPI.rejectWithValue(`Something Went Wrong: ${sum.msg}`);
+        return thunkAPI.rejectWithValue(err)
     }
 }
 
@@ -47,12 +37,7 @@ export const updateActivityThunk = async(editData: IActivityEdit, thunkAPI:any) 
         thunkAPI.dispatch(closeModalLarge());
         return response.data;
     }catch(err){
-        const error = err as any; 
-        if (!error.response) {
-            throw err;
-        }
-        let sum = error.response.data;
-        return thunkAPI.rejectWithValue(`Something Went Wrong: ${sum.msg}`);
+        return thunkAPI.rejectWithValue(err)
     }
 }
 
@@ -64,12 +49,7 @@ export const createActivityThunk = async(activityData: ActivityFormValues, thunk
         thunkAPI.dispatch(closeModalLarge());
         return response.data;
     }catch(err){
-        const error = err as any; 
-        if (!error.response) {
-            throw err;
-        }
-        let sum = error.response.data;
-        return thunkAPI.rejectWithValue(`Something Went Wrong: ${sum.msg}`);
+        return thunkAPI.rejectWithValue(err)
     }
 }
 
@@ -78,12 +58,7 @@ export const deleteActivityThunk = async (activityId:string, thunkAPI:any) => {
         const response = await axios['delete'](`activities/delete/${activityId}`)
         return response.data;
     }catch(err){
-        const error = err as any; 
-        if (!error.response) {
-            throw err;
-        }
-        let sum = error.response.data;
-        return thunkAPI.rejectWithValue(`Something Went Wrong: ${sum.msg}`);
+        return thunkAPI.rejectWithValue(err)
     }
 }
 
@@ -93,12 +68,7 @@ export const updateAttendanceThunk = async(activityId:string, thunkAPI:any) => {
         await thunkAPI.dispatch(getSingleActivity(activityId));
         return response.data
     }catch(err){
-        const error = err as any; 
-        if (!error.response) {
-            throw err;
-        }
-        let sum = error.response.data;
-        return thunkAPI.rejectWithValue(`Something Went Wrong: ${sum.msg}`);
+        return thunkAPI.rejectWithValue(err)
     }
 }
 
@@ -108,11 +78,6 @@ export const toggleActivityCancelThunk = async(activityId:string, thunkAPI:any) 
         await thunkAPI.dispatch(getSingleActivity(activityId));
         return response.data
     }catch(err){
-        const error = err as any; 
-        if (!error.response) {
-            throw err;
-        }
-        let sum = error.response.data;
-        return thunkAPI.rejectWithValue(`Something Went Wrong: ${sum.msg}`);
+        return thunkAPI.rejectWithValue(err)
     }
 }

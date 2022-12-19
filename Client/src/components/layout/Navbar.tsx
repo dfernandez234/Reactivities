@@ -5,10 +5,11 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { openModalLarge } from '../../features/UI/uiSlice';
 import { logout } from '../../features/Users/AuthenticationSlice';
 import ActivityForm from '../Activity/ActivityForm';
+import { getUserFromLocalStorage } from '../../utils/getUserFromLocalStorage';
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((store) => store.Profiles.profile);
+  const user = getUserFromLocalStorage();
   const navigate = useNavigate();
 
   const logoutHandler = () => {
@@ -30,7 +31,7 @@ const Navbar = () => {
             </Menu.Item>
             <Menu.Item position='right'>
               <div>
-                <Image src={user?.image} avatar style={{marginTop: 1, marginLeft: 1}}/>
+                <Image src={user?.image || `https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg`} avatar style={{marginTop: 1, marginLeft: 1}}/>
               </div>
               <Dropdown pointing='top left' text={user?.displayName} style={{marginLeft: 2}}>
                 <Dropdown.Menu>

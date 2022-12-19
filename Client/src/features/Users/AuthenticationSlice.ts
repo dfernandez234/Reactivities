@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { User } from "../../models/users";
 import { addUserToLocalStorage, getUserFromLocalStorage, removeUserFromLocalStorage } from "../../utils/getUserFromLocalStorage";
 import { getCurrentUserThunk, loginThunk, registerThunk } from "./AuthenticationThunk";
+import { removeActivityIdFromLocalStorage } from "../../utils/getActivityFromLocalStorage";
 
 interface AuthenticationState{
     user: User | null,
@@ -29,6 +30,7 @@ const AuthenticationSlice = createSlice({
             state.user = null;
             state.errors = null;
             removeUserFromLocalStorage();
+            removeActivityIdFromLocalStorage();
         },
 
         clearInputs: (state) => {
