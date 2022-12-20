@@ -1,46 +1,38 @@
 import React from 'react'
 import { Divider, Grid, Header, Item, Reveal, Segment, Statistic, Button } from 'semantic-ui-react'
 import { Profile } from '../../models/profile'
+import FollowButton from './FollowButton'
+import { useAppSelector } from '../../app/hooks'
 
-interface Props {
-    profile: Profile
-}
+const ProfileHeader = () => {
+    const profile = useAppSelector((store) => store.Profiles.profile)
 
-const ProfileHeader = (props:Props) => {
     return (
         <Segment>
-            <Grid>
-            <Grid.Column width={12}>
-                    <Item.Group>
-                        <Item>
-                            <Item.Image avatar size='small' src={props.profile.image || 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'}/>
-                            <Item.Content verticalAlign='middle'>
-                                <Header as='h1' content={props.profile.displayName}/>
-                            </Item.Content>
-                        </Item>
-                    </Item.Group>
-            </Grid.Column>
-            <Grid.Column width={4}>
-                <Statistic.Group widths={2}>
-                    <Statistic label='Followers' value='5'/>
-                    <Statistic label='Following' value='32'/>
-                </Statistic.Group>
-                <Divider />
-                <Reveal animated='move'>
-                    <Reveal.Content visible style={{width: '100%'}}>
-                        <Button fluid color='teal' content='Following'/>
-                    </Reveal.Content>
-                    <Reveal.Content hidden style={{width: '100%'}}>
-                        <Button
-                            fluid
-                            basic
-                            color={true ? 'red' : 'green'}
-                            content={true ? 'Unfollow': 'Follow'}
-                        />
-                    </Reveal.Content>
-                </Reveal>
-            </Grid.Column>
-            </Grid>
+            {profile &&
+                <Grid>
+                <Grid.Column width={12}>
+                        <Item.Group>
+                            <Item>
+                                <Item.Image avatar size='small' src={profile.image || 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'}/>
+                                <Item.Content verticalAlign='middle'>
+                                    <Header as='h1' content={profile.displayName}/>
+                                </Item.Content>
+                            </Item>
+                        </Item.Group>
+                </Grid.Column>
+                <Grid.Column width={4}>
+                    <Statistic.Group widths={2}>
+                        <Statistic label='Followers' value={profile.followersCount}/>
+                        <Statistic label='Following' value={profile.followingCount}/>
+                    </Statistic.Group>
+                    <Divider />
+                    <Reveal animated='move'>
+                        <FollowButton profile={profile}/>
+                    </Reveal>
+                </Grid.Column>
+                </Grid>
+            }
         </Segment>
   )
 }

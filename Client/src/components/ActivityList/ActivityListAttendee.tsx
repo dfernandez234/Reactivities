@@ -10,7 +10,10 @@ interface ActivityListAttendeeProps{
 }
 
 const ActivityListAttendee = (props:ActivityListAttendeeProps) => {
-
+    const styles = {
+        borderColor: 'orange',
+        borderWidth: 3
+    }
   
     return (
         <List horizontal>
@@ -20,7 +23,12 @@ const ActivityListAttendee = (props:ActivityListAttendeeProps) => {
                     key={attendee.username}
                     trigger={
                         <List.Item key={attendee.username} as={Link} to={`/profiles/${attendee.username}`}>
-                            <Image size='mini' circular src={attendee.image || 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'}/>
+                            <Image 
+                                size='mini' 
+                                circular src={attendee.image || 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'}
+                                bordered
+                                style={attendee.following ? styles : null}
+                            />
                         </List.Item>
                     }
                 >

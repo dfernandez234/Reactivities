@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 import { Button, Grid } from 'semantic-ui-react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { changeName, getProfileInfo, isCurrentUserCheck } from '../../features/Profiles/ProfilesSlice'
+import { changeName, clearProfile, getProfileInfo, isCurrentUserCheck } from '../../features/Profiles/ProfilesSlice'
 import ProfileContent from './ProfileContent'
 import ProfileHeader from './ProfileHeader'
 
@@ -16,6 +16,9 @@ const Profile = () => {
           dispatch(isCurrentUserCheck(userName));
           dispatch(getProfileInfo(userName))
         }
+        return(() => {
+          dispatch(clearProfile())
+        })
     }, [dispatch, userName])
 
     return (
@@ -23,7 +26,7 @@ const Profile = () => {
         {profileData.profile &&
           <Grid>
               <Grid.Column width={16}>
-                  <ProfileHeader profile={profileData.profile}/>
+                  <ProfileHeader />
                   <ProfileContent profile={profileData.profile} isCurrentUser={profileData.isCurrentUser}/>
               </Grid.Column>
           </Grid>

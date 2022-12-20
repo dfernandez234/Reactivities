@@ -1,7 +1,9 @@
 ﻿using Application.Core;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Reactivities.Application.Interfaces;
 using Reactivities.Contracts.Activities;
 using Reactivities.Infrastructure.Persistence.Context;
 using System;
@@ -16,17 +18,18 @@ namespace Reactivities.Application.Activities.Queries.SingleActivity
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
-        public SingleActivityQueryHandler(ApplicationDbContext context, IMapper mapper)
+        private readonly IUserAccessor userAccessor;
+        public SingleActivityQueryHandler(ApplicationDbContext context, IMapper mapper, IUserAccessor userAccessor)
         {
             this.context = context;
             this.mapper = mapper;
+            this.userAccessor = userAccessor;
         }
 
         async Task<ServiceResponse<GetActivityResponse>> IRequestHandler<SingleActivityQuery, ServiceResponse<GetActivityResponse>>.Handle(SingleActivityQuery request, CancellationToken cancellationToken)
         {
             var activity = await context.Activities
-                .Include(a => a.Attendees)
-                .ThenInclude(u => u.AppUser)
+                .ProjectTo<GetActivityResponse>(mapper.ConfigurationProvider, new { currentUsername = userAccessor.GetUsername()})
                 .FirstOrDefaultAsync(q => q.ActivityId == request.Id);
 
             if (activity == null) 

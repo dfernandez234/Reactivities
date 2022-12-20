@@ -40,6 +40,10 @@ const profilesSlice = createSlice({
             }else{
                 state.isCurrentUser = false;
             }
+        },
+
+        clearProfile: (state) => {
+            state.profile = null;
         }
     },
     extraReducers: builder => {
@@ -54,7 +58,6 @@ const profilesSlice = createSlice({
         })
 
         builder.addCase(getProfileInfo.fulfilled, (state, Action) => {
-            console.log(Action.payload);
             state.profile = Action.payload.data;
             state.isLoading = false;
         })
@@ -106,9 +109,7 @@ const profilesSlice = createSlice({
         })
 
         builder.addCase(updateProfile.fulfilled, (state, Action) => {
-            
             state.profile = {...state.profile, ...Action.payload.updates}
-
             state.isLoading = false;
         })
 
@@ -116,4 +117,4 @@ const profilesSlice = createSlice({
 });
 
 export default profilesSlice.reducer;
-export const {changeName, isCurrentUserCheck} = profilesSlice.actions
+export const {changeName, isCurrentUserCheck, clearProfile} = profilesSlice.actions

@@ -5,6 +5,7 @@ import AllActivitiesReducer from '../features/Activities/allActivitiesSlice'
 import ServerErrorReducer from '../features/Errors/ServerErrorSlice'
 import AuthenticationReducer from '../features/Users/AuthenticationSlice'
 import ProfilesReducer from '../features/Profiles/ProfilesSlice'
+import FollowingSliceReducer from '../features/Following/FollowingSlice'
 
 import CommensReducer from '../features/Comments/CommentSlice'
 import chatMiddleware from './chatMiddleware'
@@ -17,7 +18,8 @@ export const store = configureStore({
         ServerError: ServerErrorReducer,
         Authentication: AuthenticationReducer,
         Profiles: ProfilesReducer,
-        Comments: CommensReducer
+        Comments: CommensReducer,
+        Following: FollowingSliceReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false

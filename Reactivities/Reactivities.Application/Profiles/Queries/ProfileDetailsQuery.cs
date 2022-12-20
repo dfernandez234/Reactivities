@@ -3,6 +3,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Reactivities.Application.Interfaces;
 using Reactivities.Infrastructure.Persistence.Context;
 using System;
 using System.Collections.Generic;
@@ -23,17 +24,19 @@ namespace Reactivities.Application.Profiles.Queries
         {
             private readonly ApplicationDbContext context;
             private readonly IMapper mapper;
+            private readonly IUserAccessor userAccessor;
 
-            public ProfileDetailsQueryHandler(ApplicationDbContext context, IMapper mapper)
+            public ProfileDetailsQueryHandler(ApplicationDbContext context, IMapper mapper, IUserAccessor userAccessor)
             {
                 this.context = context;
                 this.mapper = mapper;
+                this.userAccessor = userAccessor;
             }
 
             public async Task<ServiceResponse<Reactivities.Contracts.Users.Profile>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var user = await context.Users
-                    .ProjectTo<Reactivities.Contracts.Users.Profile>(mapper.ConfigurationProvider)
+                    .ProjectTo<Reactivities.Contracts.Users.Profile>(mapper.ConfigurationProvider, new { currentUsername = userAccessor.GetUsername() })
                     .SingleOrDefaultAsync(x => x.Username == request.Username);
 
                 if (user == null) return null;
