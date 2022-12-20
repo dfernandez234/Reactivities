@@ -1,8 +1,9 @@
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { getUserFromLocalStorage } from "../utils/getUserFromLocalStorage";
+import { PaginatedResult } from "../models/pagination";
 
 const sleep = (milliseconds:number) => {
   return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -33,6 +34,12 @@ const AxiosInterceptor = ({ children }:any) => {
     useEffect(() => {
       const resInterceptor = async (response:any) => {
         await sleep(1500);
+
+        const pagination = response.headers['pagination'];
+        if(pagination){
+          response.data = new PaginatedResult(response.data, JSON.parse(pagination));
+          return response as AxiosResponse<PaginatedResult<any>>
+        }
         return response;
       };
   

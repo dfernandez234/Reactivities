@@ -9,15 +9,18 @@ using AutoMapper.QueryableExtensions;
 using FluentResults;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Reactivities.Application.Core;
 using Reactivities.Application.Interfaces;
 using Reactivities.Contracts.Activities;
 using Reactivities.Infrastructure.Persistence.Context;
 
 namespace Reactivities.Application.Activities.Queries.List
 {
-    public class ListQuery : IRequest<ServiceResponse<List<GetActivityResponse>>> { }
+    public class ListQuery : IRequest<ServiceResponse<PagedList<GetActivityResponse>>> {
+        public PagingParams Params { get; set; }
+    }
 
-    public class ListQueryHandler : IRequestHandler<ListQuery, ServiceResponse<List<GetActivityResponse>>>
+    public class ListQueryHandler : IRequestHandler<ListQuery, ServiceResponse<PagedList<GetActivityResponse>>>
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
@@ -30,13 +33,16 @@ namespace Reactivities.Application.Activities.Queries.List
             this.userAccessor = userAccessor;
         }
 
-        public async Task<ServiceResponse<List<GetActivityResponse>>> Handle(ListQuery request, CancellationToken cancellationToken)
+        public async Task<ServiceResponse<PagedList<GetActivityResponse>>> Handle(ListQuery request, CancellationToken cancellationToken)
         {
-            var activites = await context.Activities
-                .ProjectTo<GetActivityResponse>(mapper.ConfigurationProvider, new { currentUsername = userAccessor.GetUsername() })
-                .ToListAsync();
+            var query = context.Activities.OrderBy(x => x.Date)
+                   .ProjectTo<GetActivityResponse>(mapper.ConfigurationProvider,
+                            new { currentUsername = userAccessor.GetUsername() })
+                   .AsQueryable();
 
-            return ServiceResponse<List<GetActivityResponse>>.Success(mapper.Map<List<GetActivityResponse>>(activites));
+            return ServiceResponse<PagedList<GetActivityResponse>>.Success(
+                await PagedList<GetActivityResponse>.CreateAsync(query, request.Params.PageNumber, request.Params.PageSize)
+            );
         }
     }
 

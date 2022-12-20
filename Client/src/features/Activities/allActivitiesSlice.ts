@@ -32,7 +32,9 @@ const AllActivitiesSlice = createSlice({
         })
 
         builder.addCase(getAllActivities.fulfilled, (state, action) => {
-            state.Activities = action.payload.response.data;
+
+            console.log(action.payload);
+            state.Activities = action.payload.response;
 
             state.Activities.forEach((act) => {
                 act.date = act.date.split('T')[0];

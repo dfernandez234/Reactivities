@@ -12,6 +12,7 @@ using Reactivities.Application.Activities.Commands.Edit;
 using Reactivities.Application.Activities.Queries.List;
 using Reactivities.Application.Activities.Queries.SingleActivity;
 using Reactivities.Application.Attendance.Commands;
+using Reactivities.Application.Core;
 using Reactivities.Contracts.Activities;
 using Reactivities.Contracts.Authentication;
 
@@ -22,12 +23,12 @@ namespace Reactivities.API.Controllers
     public class ActivitiesController : BaseApiController
     {
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<GetActivityResponse>>>> GetActivities()
+        public async Task<ActionResult<ServiceResponse<List<GetActivityResponse>>>> GetActivities([FromQuery]PagingParams param)
         {
-            var query = new ListQuery();
+            var query = new ListQuery { Params = param };
             var authResult = await Mediator.Send(query);
 
-            return HandleResult(authResult);
+            return HandlePagedResult(authResult);
         }
 
         [Authorize]

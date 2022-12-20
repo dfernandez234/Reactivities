@@ -1,6 +1,8 @@
 ﻿using Application.Core;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Reactivities.API.Extensions;
+using Reactivities.Application.Core;
 
 namespace Reactivities.API.Controllers
 {
@@ -22,6 +24,22 @@ namespace Reactivities.API.Controllers
                 return NotFound();
             }
             return BadRequest(result);
+        }
+
+        protected ActionResult HandlePagedResult<T>(ServiceResponse<PagedList<T>> result)
+        {
+            if(result == null) return NotFound();
+            if(result.Successful && result.Data != null)
+            {
+                Response.AddPaginationHeader(result.Data.CurrentPage, result.Data.PageSize,
+                    result.Data.TotalCount, result.Data.TotalPages);
+                return Ok(result.Data);
+            }
+
+            if(result.Successful && result.Data == null)
+                return NotFound();
+
+            return BadRequest(result.Error);
         }
     }
 }
